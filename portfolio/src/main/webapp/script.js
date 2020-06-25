@@ -15,14 +15,31 @@
 /**
  * Adds a random greeting to the page.
  */
-function addRandomGreeting() {
-  const greetings =
-      ['Hello world!', '¡Hola Mundo!', '你好，世界！', 'Bonjour le monde!'];
+function addRandomBibleVerse() {
+  const bibleVersesText =
+      ['Not only so, but we also glory in our sufferings, because we know that suffering produces perseverance; perseverance, character; and character, hope. And hope does not put us to shame, because God’s love has been poured out into our hearts through the Holy Spirit, who has been given to us.',
+      'For, “Everyone who calls on the name of the Lord will be saved.”',
+      'When anxiety was great within me, your consolation brought me joy.',
+      'For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life.',
+      'If any of you lacks wisdom, you should ask God, who gives generously to all without finding fault, and it will be given to you.',
+      'Have I not commanded you? Be strong and courageous. Do not be afraid; do not be discouraged, for the Lord your God will be with you wherever you go.'];
+
+  const bibleVerses = 
+      ['Romans 5: 3-5',
+      'Romans 10:13',
+      'Psalms 94:19',
+      'John 3:16',
+      'James 1:5',
+      'Joshua 1:9']
 
   // Pick a random greeting.
-  const greeting = greetings[Math.floor(Math.random() * greetings.length)];
+  const bibleVerseIndex = Math.floor(Math.random() * bibleVersesText.length);
+  const bibleVerseText = bibleVersesText[bibleVerseIndex];
+  const bibleVerse = bibleVerses[bibleVerseIndex];
 
   // Add it to the page.
-  const greetingContainer = document.getElementById('greeting-container');
-  greetingContainer.innerText = greeting;
+  const bibleVerseTextContainer = document.getElementById('bible-verse-text-container');
+  bibleVerseTextContainer.innerText = bibleVerseText;
+  const bibleVerseContainer = document.getElementById('bible-verse-container');
+  bibleVerseContainer.innerText = bibleVerse;
 }

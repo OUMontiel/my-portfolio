@@ -4,6 +4,11 @@
   width: 650px;
 }
 
-#greeting-container {
+#bible-verse-text-container {
   margin-top: 20px;
+}
+
+#bible-verse-container {
+  margin-top: 20px;
+  font-style: italic;
 }
