@@ -36,6 +36,11 @@ bibleVerses.set('Joshua 1:9', 'Have I not commanded you? Be strong and ' +
 		'courageous. Do not be afraid; do not be discouraged, for the Lord your ' +
 		'God will be with you wherever you go.');
 
+/**
+ * Select a random key from bibleVerses map and return and array with
+ * the key and its value.
+ * @return {!ARRAY<string>}
+ */
 function getRandomBibleVerse() {
 	// Pick random index
   const bibleVerseIndex = Math.floor(Math.random() * bibleVerses.size);
@@ -54,6 +59,9 @@ function getRandomBibleVerse() {
 	return bibleVerse;
 }
 
+/**
+ * Select a random Bible verse and add to the page.
+ */
 function addRandomBibleVerse() {
   // Pick a random Bible verse.
 	const bibleVerse = getRandomBibleVerse();
