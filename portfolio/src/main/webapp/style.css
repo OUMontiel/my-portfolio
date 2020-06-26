@@ -1,14 +1,14 @@
-#content {
-  margin-left: auto;
-  margin-right: auto;
-  width: 650px;
+#bible-verse-container {
+  margin-top: 20px;
+  font-style: italic;
 }
 
 #bible-verse-text-container {
   margin-top: 20px;
 }
 
-#bible-verse-container {
-  margin-top: 20px;
-  font-style: italic;
+#content {
+  margin-left: auto;
+  margin-right: auto;
+  width: 650px;
 }
