@@ -15,7 +15,6 @@
 /**
  * Adds a random Bible verse to the page.
  */
-
 let bibleVerses = new Map();
 bibleVerses.set('Romans 5: 3-5', 'Not only so, but we also glory in our ' +
     'sufferings, because we know that suffering produces perseverance; ' +
@@ -74,3 +73,16 @@ function addRandomBibleVerse() {
 	    document.getElementById('bible-verse-container');
   bibleVerseContainer.innerText = bibleVerse[1];
 }
+
+window.addEventListener('scroll', function() {
+  if (document.body.scrollTop > 80 || document.documentElement.scrollTop > 80) {
+    document.getElementById('navbar').style.padding = '30px 10px';
+    document.getElementById('navbar').style.backgroundColor = 'rgba(0, 0, 0, 0.25)';
+    document.getElementById('logo').style.fontSize = '25px';
+  }
+  else {
+    document.getElementById('navbar').style.padding = '80px 10px';
+    document.getElementById('navbar').style.backgroundColor = 'rgba(0, 0, 0, 1)';
+    document.getElementById('logo').style.fontSize = '35px';
+  }
+})

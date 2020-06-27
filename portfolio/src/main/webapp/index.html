@@ -6,31 +6,60 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
 
     <!-- JavaScript -->
     <script src="script.js"></script>
+
+    <!-- Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
     
     <title>My Portfolio</title>
   </head>
-  <body>
-    <div id="content">
-      <h1>Omar Montiel's Portfolio</h1>
-      <p>This is my portfolio.</p>
-      <p>I am an aspiring Software Engineer, studying Computer Science and currently a Google Intern :)</p>
-      <p>I love video games, piano, and learning about God!</p>
-      <p>Click here to get one of my favorite Bible verses:</p>
-      <button onclick="addRandomBibleVerse()">Hello</button>
-      <div id="bible-verse-text-container"></div>
-      <div id="bible-verse-container"></div>
-      <p>I also snowboard:</p>
-      <img src="/images/portfolio-image.jpg" alt="Snowboarding picture."/>
-    </div>
+  <body data-spy="scroll" data-target="#navbar" data-offset="100">
+    <!-- Navigation Bar -->
+    <nav id="navbar" class="navbar sticky-top">
+      <a id="name" class="navbar-brand" href="#">Omar Montiel</a>
+      <ul class="nav nav-pills">
+        <li class="nav-item">
+          <a class="nav-link" href="#about-me">About Me</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#hobbies">Hobbies</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#picture">Picture</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#contact">Contact</a>
+        </li>
+      </ul>
+    </nav>
 
-    <!-- Bootstrap JavaScript -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script> 
+    <!-- Main Content -->
+    <div class="content">
+      <div  id="about-me" class="section">
+        <h1>Omar Montiel's Portfolio</h1>
+        <p>This is my portfolio.</p>
+        <p>I am an aspiring Software Engineer, studying Computer Science and currently a Google Intern :)</p>
+      </div>
+      <div id="hobbies" class="section">
+        <p>I love video games, piano, and learning about God!</p>
+        <p>Click here to get one of my favorite Bible verses:</p>
+        <button onclick="addRandomBibleVerse()">Hello</button>
+        <div id="bible-verse-text-container"></div>
+        <div id="bible-verse-container"></div>
+      </div>
+      <div id="picture" class="section">
+        <p>I also snowboard:</p>
+        <img src="/images/portfolio-image.jpg" alt="Snowboarding picture."/>
+      </div>
+      <div id="contact" class="section">
+        <a href="resume.pdf" target="_blank">Resume</a>
+      </div>
+    </div>
   </body>
 </html>
