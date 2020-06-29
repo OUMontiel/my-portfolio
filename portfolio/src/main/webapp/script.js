@@ -92,3 +92,11 @@ window.addEventListener('scroll', function() {
     document.getElementById('logo').style.fontSize = '35px';
   }
 })
+
+/**
+ */
+function getMessage() {
+  fetch('/data').then(response => response.text()).then((message) => {
+    document.getElementById('message-container').innerText = message;
+  });
+}
