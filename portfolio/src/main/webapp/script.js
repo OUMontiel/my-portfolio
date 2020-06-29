@@ -36,7 +36,7 @@ BIBLE_VERSES.set('Joshua 1:9', 'Have I not commanded you? Be strong and ' +
     'God will be with you wherever you go.');
 
 /**
- * Select a random key from BIBLE_VERSES map and return an array with
+ * Selects a random key from BIBLE_VERSES map and return an array with
  * the key and its value.
  * @return {!ARRAY<string>}
  */
@@ -59,7 +59,7 @@ function getRandomBibleVerse() {
 }
 
 /**
- * Select a random Bible verse and add to the page.
+ * Selects a random Bible verse and add to the page.
  */
 function addRandomBibleVerse() {
   // Pick a random Bible verse.
@@ -74,15 +74,21 @@ function addRandomBibleVerse() {
   bibleVerseContainer.innerText = bibleVerse[1];
 }
 
+/**
+ * Changes Navbar style depending on scroll position
+ */
 window.addEventListener('scroll', function() {
-  if (document.body.scrollTop > 80 || document.documentElement.scrollTop > 80) {
+  if (document.body.scrollTop > 80 || 
+      document.documentElement.scrollTop > 80) {
     document.getElementById('navbar').style.padding = '30px 10px';
-    document.getElementById('navbar').style.backgroundColor = 'rgba(0, 0, 0, 0.25)';
+    document.getElementById('navbar').style.backgroundColor = 
+        'rgba(0, 0, 0, 0.25)';
     document.getElementById('logo').style.fontSize = '25px';
   }
   else {
     document.getElementById('navbar').style.padding = '80px 10px';
-    document.getElementById('navbar').style.backgroundColor = 'rgba(0, 0, 0, 1)';
+    document.getElementById('navbar').style.backgroundColor = 
+        'rgba(0, 0, 0, 1)';
     document.getElementById('logo').style.fontSize = '35px';
   }
 })
