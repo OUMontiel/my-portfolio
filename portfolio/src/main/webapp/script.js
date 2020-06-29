@@ -94,9 +94,21 @@ window.addEventListener('scroll', function() {
 })
 
 /**
+ * Gets message from DataServlet by fetching a response.
  */
 function getMessage() {
-  fetch('/data').then(response => response.text()).then((message) => {
-    document.getElementById('message-container').innerText = message;
+  fetch('/data').then(response => response.json()).then((message) => {
+    const element = document.getElementById('message-container')
+    element.innerHTML = '';
+    element.appendChild(createListElement(message.string1));
+    element.appendChild(createListElement(message.string2));
+    element.appendChild(createListElement(message.string3));
   });
+}
+
+/** Creates an <li> element containing text. */
+function createListElement(text) {
+  const liElement = document.createElement('li');
+  liElement.innerText = text;
+  return liElement;
 }
