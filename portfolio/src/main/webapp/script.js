@@ -94,6 +94,7 @@ window.addEventListener('scroll', function() {
 })
 
 /**
+ * Fetches a message from the server and adds it to the DOM.
  */
 function getMessage() {
   fetch('/data').then(response => response.text()).then((message) => {
