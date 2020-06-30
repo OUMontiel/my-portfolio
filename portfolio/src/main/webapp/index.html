@@ -22,7 +22,7 @@
   <body data-spy="scroll" data-target="#navbar" data-offset="100">
     <!-- Navigation Bar -->
     <nav id="navbar" class="navbar sticky-top">
-      <a id="name" class="navbar-brand" href="#">Omar Montiel</a>
+      <a id="myName" class="navbar-brand" href="#">Omar Montiel</a>
       <ul class="nav nav-pills">
         <li class="nav-item">
           <a class="nav-link" href="#about-me">About Me</a>
@@ -42,8 +42,8 @@
     <!-- Main Content -->
     <div class="content">
       <!-- About Me Section -->
-      <div  id="about-me" class="section">
-        <h1>Omar Montiel's Portfolio</h1>
+      <div id="about-me" class="section">
+        <h1 id="name">Omar Montiel's Portfolio</h1>
         <p>This is my portfolio.</p>
         <p>I am an aspiring Software Engineer, studying Computer Science and currently a Google Intern :)</p>
       </div>
@@ -63,6 +63,13 @@
       <!-- Contact Section -->
       <div id="contact" class="section">
         <a href="resume.pdf" target="_blank">Resume</a>
+        <!-- Message Input Form -->
+        <form action="/data" method="POST">
+          <p>Leave a message:</p>
+          <textarea name="text-input">Say hi!</textarea>
+          <br/><br/>
+          <input type="submit" />
+        </form>
         <button onclick="getMessage()">Try Fetch</button> <!-- Fetch message from Data Servlet -->
         <div id="message-container"></div> <!-- Display message from Data Servlet -->
       </div>

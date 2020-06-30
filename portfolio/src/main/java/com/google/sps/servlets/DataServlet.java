@@ -35,9 +35,6 @@ public class DataServlet extends HttpServlet {
   @Override
   public void init() {
     messages = new ArrayList<>();
-    messages.add("Once upon a time...");
-    messages.add("Twice upon two times...");
-    messages.add("Thrice upon three times...");
   }
 
   @Override
@@ -46,19 +43,29 @@ public class DataServlet extends HttpServlet {
     response.getWriter().println(convertToJson(messages));
   }
 
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    /** Get the message from the form and add it to the array */
+    String message = request.getParameter("text-input");
+    messages.add(message);
+
+    // Redirect back to the HTML page.
+    response.sendRedirect("/index.html");
+  }
+
   /**
    * Converts an array into a JSON string using manual String concatentation.
    */
   private String convertToJson(ArrayList messages) {
     String json = "{";
-    json += "\"string1\": ";
-    json += "\"" + messages.get(0) + "\"";
-    json += ", ";
-    json += "\"string2\": ";
-    json += "\"" + messages.get(1) + "\"";
-    json += ", ";
-    json += "\"string3\": ";
-    json += "\"" + messages.get(2) + "\"";
+    int i;
+    for (i = 0; i < messages.size() - 1; i++) {
+      json += "\"string" + i + "\": ";
+      json += "\"" + messages.get(i) + "\"";
+      json += ", ";
+    }
+    json += "\"string" + i + "\": ";
+    json += "\"" + messages.get(i) + "\"";
     json += "}";
     return json;
   }
