@@ -94,7 +94,7 @@ window.addEventListener('scroll', function() {
 })
 
 /**
- * Gets message from DataServlet by fetching a response.
+ * Fetches a message from the server and adds it to the DOM.
  */
 function getMessage() {
   fetch('/data').then(response => response.json()).then((message) => {
