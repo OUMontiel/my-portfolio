@@ -41,11 +41,13 @@
 
     <!-- Main Content -->
     <div class="content">
+      <!-- About Me Section -->
       <div  id="about-me" class="section">
         <h1>Omar Montiel's Portfolio</h1>
         <p>This is my portfolio.</p>
         <p>I am an aspiring Software Engineer, studying Computer Science and currently a Google Intern :)</p>
       </div>
+      <!-- Hobbies Section -->
       <div id="hobbies" class="section">
         <p>I love video games, piano, and learning about God!</p>
         <p>Click here to get one of my favorite Bible verses:</p>
@@ -53,14 +55,16 @@
         <div id="bible-verse-text-container"></div>
         <div id="bible-verse-container"></div>
       </div>
+      <!-- Picture Section -->
       <div id="picture" class="section">
         <p>I also snowboard:</p>
         <img src="/images/portfolio-image.jpg" alt="Snowboarding picture."/>
       </div>
+      <!-- Contact Section -->
       <div id="contact" class="section">
         <a href="resume.pdf" target="_blank">Resume</a>
-        <button onclick="getMessage()">Try Fetch</button>
-        <div id="message-container"></div>
+        <button onclick="getMessage()">Try Fetch</button> <!-- Fetch message from Data Servlet -->
+        <div id="message-container"></div> <!-- Display message from Data Servlet -->
       </div>
     </div>
   </body>
