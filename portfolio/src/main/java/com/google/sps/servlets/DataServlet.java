@@ -26,6 +26,10 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
+  /**
+   * List of messages to be fetched from this Data Servlet
+   * @private {ArrayList<String>}
+   */
   private ArrayList<String> messages;
 
   @Override
