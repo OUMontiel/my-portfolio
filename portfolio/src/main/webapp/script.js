@@ -41,10 +41,10 @@ BIBLE_VERSES.set('Joshua 1:9', 'Have I not commanded you? Be strong and ' +
  * @return {!ARRAY<string>}
  */
 function getRandomBibleVerse() {
-  // Pick random index
+  // Pick random index.
   const bibleVerseIndex = Math.floor(Math.random() * BIBLE_VERSES.size);
 	
-  // Select index from map
+  // Select index from map.
   let index = 0;
   let text = '';
   let verse = '';
@@ -75,7 +75,7 @@ function addRandomBibleVerse() {
 }
 
 /**
- * Changes Navbar style depending on scroll position
+ * Changes Navbar style depending on scroll position.
  */
 window.addEventListener('scroll', function() {
   if (document.body.scrollTop > 80 || 
@@ -94,7 +94,7 @@ window.addEventListener('scroll', function() {
 })
 
 /**
- * Fetches a message from the server and adds it to the DOM.
+ * Fetches all messages submitted via the form from the server and adds it to the DOM.
  */
 function getMessage() {
   fetch('/data').then(response => response.json()).then((messages) => {
