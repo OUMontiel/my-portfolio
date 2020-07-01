@@ -92,3 +92,12 @@ window.addEventListener('scroll', function() {
     document.getElementById('logo').style.fontSize = '35px';
   }
 })
+
+/**
+ * Fetches all comments left by users from the server and adds it to the DOM.
+ */
+function getMessage() {
+  fetch('/data').then(response => response.text()).then((message) => {
+    document.getElementById('message-container').innerText = message;
+  });
+}
