@@ -15,6 +15,8 @@
 package com.google.sps.servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -24,9 +26,40 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
+  /**
+   * List of messages to be fetched from this Data Servlet
+   * @private {ArrayList<String>}
+   */
+  private ArrayList<String> messages;
+
+  @Override
+  public void init() {
+    messages = new ArrayList<>();
+    messages.add("Once upon a time...");
+    messages.add("Twice upon two times...");
+    messages.add("Thrice upon three times...");
+  }
+
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("text/html;");
-    response.getWriter().println("<h1>Hello, Omar!</h1>");
+    response.getWriter().println(convertToJson(messages));
+  }
+
+  /**
+   * Converts an array into a JSON string using manual String concatentation.
+   */
+  private String convertToJson(ArrayList messages) {
+    String json = "{";
+    json += "\"string1\": ";
+    json += "\"" + messages.get(0) + "\"";
+    json += ", ";
+    json += "\"string2\": ";
+    json += "\"" + messages.get(1) + "\"";
+    json += ", ";
+    json += "\"string3\": ";
+    json += "\"" + messages.get(2) + "\"";
+    json += "}";
+    return json;
   }
 }
