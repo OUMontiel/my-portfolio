@@ -101,7 +101,7 @@ function getMessage() {
     const element = document.getElementById('message-container')
     element.innerHTML = '';
     for (let key in messages) {
-        element.appendChild(createListElement(messages[key]));
+      element.appendChild(createListElement(messages[key]));
     }
   });
 }
