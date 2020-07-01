@@ -94,7 +94,7 @@ window.addEventListener('scroll', function() {
 })
 
 /**
- * Fetches a message from the server and adds it to the DOM.
+ * Fetches all comments left by users from the server and adds it to the DOM.
  */
 function getMessage() {
   fetch('/data').then(response => response.json()).then((message) => {
