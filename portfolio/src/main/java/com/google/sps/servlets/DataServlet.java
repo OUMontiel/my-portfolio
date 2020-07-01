@@ -37,12 +37,14 @@ public class DataServlet extends HttpServlet {
     messages = new ArrayList<>();
   }
 
+  /** Gets the messages stored in the messages variable in JSON format */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("text/html;");
     response.getWriter().println(convertToJson(messages));
   }
 
+  /** Posts a message retrieved from the form input adding it to the messages variable */
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     /** Get the message from the form and add it to the array */
