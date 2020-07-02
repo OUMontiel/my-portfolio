@@ -94,7 +94,8 @@ window.addEventListener('scroll', function() {
 })
 
 /**
- * Fetches all messages submitted via the form from the server and adds it to the DOM.
+ * Fetches all messages (submitted via the form) from the server
+ * and adds it to the DOM.
  */
 function getMessage() {
   fetch('/data').then(response => response.json()).then((messages) => {
