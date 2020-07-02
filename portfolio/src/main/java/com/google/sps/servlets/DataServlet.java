@@ -62,14 +62,11 @@ public class DataServlet extends HttpServlet {
    */
   private String convertToJson(ArrayList messages) {
     String json = "{";
-    int i;
-    for (i = 0; i < messages.size() - 1; i++) {
+    for (int i = 0; i < messages.size(); i++) {
       json += "\"string" + i + "\": ";
       json += "\"" + messages.get(i) + "\"";
-      json += ", ";
+      if(i != messages.size() - 1) json += ", ";
     }
-    json += "\"string" + i + "\": ";
-    json += "\"" + messages.get(i) + "\"";
     json += "}";
     return json;
   }
