@@ -14,6 +14,14 @@
 
 package com.google.sps.servlets;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.FetchOptions;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +60,18 @@ public class DataServlet extends HttpServlet {
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     /** Get the message from the form and add it to the array */
     String message = request.getParameter("text-input");
+    long timestamp = System.currentTimeMillis();
     messages.add(message);
+
+    /**
+     * Create an Entity that holds the message and the time it was created
+     * and store it in Datastore
+     */
+    Entity messageEntity = new Entity("Message");
+    messageEntity.setProperty("message", message);
+    messageEntity.setProperty("timestamp", timestamp);
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    datastore.put(messageEntity);
 
     // Redirect back to the HTML page.
     response.sendRedirect("/index.html");
