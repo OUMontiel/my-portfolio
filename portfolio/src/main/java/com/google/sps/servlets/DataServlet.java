@@ -65,7 +65,7 @@ public class DataServlet extends HttpServlet {
   private String convertToJson(ArrayList messages) {
     String json = "{";
     for (int i = 0; i < messages.size(); i++) {
-      json += "\"string" + i + "\": ";
+      json += "\"message" + i + "\": ";
       json += "\"" + messages.get(i) + "\"";
       if(i != messages.size() - 1) json += ", ";
     }
