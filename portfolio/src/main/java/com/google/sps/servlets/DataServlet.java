@@ -37,7 +37,10 @@ public class DataServlet extends HttpServlet {
     messages = new ArrayList<>();
   }
 
-  /** Gets the messages stored in the messages variable in JSON format */
+  /**
+   * Gets the messages, in JSON format, taken from user input in the form from the HTML,
+   * which are stored in the messages variable.
+   */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("text/html;");
