@@ -44,8 +44,8 @@ public class DataServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     /** Create a query and prepare it with the data stored in Datastore. */
-    Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
     PreparedQuery preparedQuery = datastore.prepare(query);
 
     /** Set maximum number of comments to be included in the response. */

@@ -94,16 +94,16 @@ window.addEventListener('scroll', function() {
 })
 
 /**
- * Fetches all comments (submitted via the form) from the server
+ * Fetches a number of comments (submitted via the form) from the server
  * and adds it to the DOM.
  */
-function getComment() {
+function getComments() {
   let url = '/data?limit=' + document.getElementById("quantity").value.toString();
-  console.log(url);
   fetch(url).then(response => response.json()).then((comments) => {
     const element = document.getElementById('comment-container');
     element.innerHTML = "";
     comments.forEach((comment) => {
+      console.log(comment.content);
       element.appendChild(createCommentElement(comment));
     })
   });
@@ -119,4 +119,10 @@ function createCommentElement(comment) {
 
   commentElement.appendChild(contentElement);
   return commentElement;
+}
+
+/** Deletes all comments from the server */
+function deleteComments() {
+  const request = new Request('delete-data', {method: 'POST'});
+  fetch(request).then(response => getComments());
 }
