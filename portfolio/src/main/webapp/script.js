@@ -98,12 +98,12 @@ window.addEventListener('scroll', function() {
  * and adds it to the DOM.
  */
 function getComment() {
-  fetch('/data').then(response => response.json()).then((comments) => {
-    const element = document.getElementById('comment-container')
-    console.log("hi");
-    console.log(comments.length);
+  let url = '/data?limit=' + document.getElementById("quantity").value.toString();
+  console.log(url);
+  fetch(url).then(response => response.json()).then((comments) => {
+    const element = document.getElementById('comment-container');
+    element.innerHTML = "";
     comments.forEach((comment) => {
-      console.log(comment);
       element.appendChild(createCommentElement(comment));
     })
   });

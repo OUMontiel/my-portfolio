@@ -46,14 +46,19 @@ public class DataServlet extends HttpServlet {
     /** Create a query and prepare it with the data stored in Datastore. */
     Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    PreparedQuery results = datastore.prepare(query);
+    PreparedQuery preparedQuery = datastore.prepare(query);
+
+    /** Set maximum number of comments to be included in the response. */
+    int numOfComments = Integer.parseInt(request.getParameter("limit"));
+    List<Entity> results = preparedQuery.asList(FetchOptions.Builder.withLimit(numOfComments));
+
 
     /**
      * Add all queried comments from Datastore
      * to an List of type Comment.
      */
     List<Comment> comments = new ArrayList<>();
-    for (Entity entity : results.asIterable()) {
+    for (Entity entity : results) {
       long id = entity.getKey().getId();
       String content = (String) entity.getProperty("content");
       long timestamp = (long) entity.getProperty("timestamp");
@@ -65,7 +70,7 @@ public class DataServlet extends HttpServlet {
     /** Convert the comments List to JSON format. */
     Gson gson = new Gson();
 
-    response.setContentType("text/html;");
+    response.setContentType("application/json");
     response.getWriter().println(gson.toJson(comments));
   }
 
