@@ -52,9 +52,8 @@ public class DataServlet extends HttpServlet {
     int numOfComments = Integer.parseInt(request.getParameter("limit"));
     List<Entity> results = preparedQuery.asList(FetchOptions.Builder.withLimit(numOfComments));
 
-
     //Add all queried comments from Datastore
-    //to an List of type Comment.
+    //to a List of type Comment.
     List<Comment> comments = new ArrayList<>();
     for (Entity entity : results) {
       long id = entity.getKey().getId();
