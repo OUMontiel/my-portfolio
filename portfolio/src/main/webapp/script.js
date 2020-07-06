@@ -41,10 +41,10 @@ BIBLE_VERSES.set('Joshua 1:9', 'Have I not commanded you? Be strong and ' +
  * @return {!ARRAY<string>}
  */
 function getRandomBibleVerse() {
-  // Pick random index
+  // Pick random index.
   const bibleVerseIndex = Math.floor(Math.random() * BIBLE_VERSES.size);
 	
-  // Select index from map
+  // Select index from map.
   let index = 0;
   let text = '';
   let verse = '';
@@ -75,7 +75,7 @@ function addRandomBibleVerse() {
 }
 
 /**
- * Changes Navbar style depending on scroll position
+ * Changes Navbar style depending on scroll position.
  */
 window.addEventListener('scroll', function() {
   if (document.body.scrollTop > 80 || 
@@ -83,26 +83,27 @@ window.addEventListener('scroll', function() {
     document.getElementById('navbar').style.padding = '30px 10px';
     document.getElementById('navbar').style.backgroundColor = 
         'rgba(0, 0, 0, 0.25)';
-    document.getElementById('logo').style.fontSize = '25px';
+    document.getElementById('myName').style.fontSize = '25px';
   }
   else {
     document.getElementById('navbar').style.padding = '80px 10px';
     document.getElementById('navbar').style.backgroundColor = 
         'rgba(0, 0, 0, 1)';
-    document.getElementById('logo').style.fontSize = '35px';
+    document.getElementById('myName').style.fontSize = '35px';
   }
 })
 
 /**
- * Fetches all comments left by users from the server and adds it to the DOM.
+ * Fetches all messages (submitted via the form) from the server
+ * and adds it to the DOM.
  */
 function getMessage() {
-  fetch('/data').then(response => response.json()).then((message) => {
+  fetch('/data').then(response => response.json()).then((messages) => {
     const element = document.getElementById('message-container')
     element.innerHTML = '';
-    element.appendChild(createListElement(message.string1));
-    element.appendChild(createListElement(message.string2));
-    element.appendChild(createListElement(message.string3));
+    for (let key in messages) {
+      element.appendChild(createListElement(messages[key]));
+    }
   });
 }
 

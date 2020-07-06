@@ -35,30 +35,43 @@ public class DataServlet extends HttpServlet {
   @Override
   public void init() {
     messages = new ArrayList<>();
-    messages.add("Once upon a time...");
-    messages.add("Twice upon two times...");
-    messages.add("Thrice upon three times...");
   }
 
+  /**
+   * Gets the messages, in JSON format, taken from user input in the form from the HTML,
+   * which are stored in the messages variable.
+   */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("text/html;");
     response.getWriter().println(convertToJson(messages));
   }
 
+  /** Posts a message retrieved from the form input adding it to the messages variable */
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    /** Get the message from the form and add it to the array */
+    String message = request.getParameter("text-input");
+    messages.add(message);
+
+    // Redirect back to the HTML page.
+    response.sendRedirect("/index.html");
+  }
+
   /**
    * Converts an array into a JSON string using manual String concatentation.
+   * Keys will be a String called 'message' plus the number of the message.
+   * Values will be a String containing a message (user comment).
+   * An example would look like this:
+   * '{"message1": "This is a message", "message2": "This is another message"}
    */
   private String convertToJson(ArrayList messages) {
     String json = "{";
-    json += "\"string1\": ";
-    json += "\"" + messages.get(0) + "\"";
-    json += ", ";
-    json += "\"string2\": ";
-    json += "\"" + messages.get(1) + "\"";
-    json += ", ";
-    json += "\"string3\": ";
-    json += "\"" + messages.get(2) + "\"";
+    for (int i = 0; i < messages.size(); i++) {
+      json += "\"message" + i + "\": ";
+      json += "\"" + messages.get(i) + "\"";
+      if (i != messages.size() - 1) json += ", ";
+    }
     json += "}";
     return json;
   }
