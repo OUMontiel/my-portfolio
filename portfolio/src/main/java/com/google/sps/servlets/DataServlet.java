@@ -60,10 +60,10 @@ public class DataServlet extends HttpServlet {
 
   /**
    * Converts an array into a JSON string using manual String concatentation.
-   * Keys will be a String called 'string' plus the number of the String.
+   * Keys will be a String called 'message' plus the number of the message.
    * Values will be a String containing a message (user comment).
    * An example would look like this:
-   * '{"string1": "This is a message", "string2": "This is another message"}
+   * '{"message1": "This is a message", "message2": "This is another message"}
    */
   private String convertToJson(ArrayList messages) {
     String json = "{";
