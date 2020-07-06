@@ -70,7 +70,7 @@ public class DataServlet extends HttpServlet {
     for (int i = 0; i < messages.size(); i++) {
       json += "\"message" + i + "\": ";
       json += "\"" + messages.get(i) + "\"";
-      if(i != messages.size() - 1) json += ", ";
+      if (i != messages.size() - 1) json += ", ";
     }
     json += "}";
     return json;
