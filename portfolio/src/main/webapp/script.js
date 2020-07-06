@@ -83,13 +83,13 @@ window.addEventListener('scroll', function() {
     document.getElementById('navbar').style.padding = '30px 10px';
     document.getElementById('navbar').style.backgroundColor = 
         'rgba(0, 0, 0, 0.25)';
-    document.getElementById('myName').style.fontSize = '25px';
+    document.getElementById('navbar-name').style.fontSize = '25px';
   }
   else {
     document.getElementById('navbar').style.padding = '80px 10px';
     document.getElementById('navbar').style.backgroundColor = 
         'rgba(0, 0, 0, 1)';
-    document.getElementById('myName').style.fontSize = '35px';
+    document.getElementById('navbar-name').style.fontSize = '35px';
   }
 })
 
@@ -99,7 +99,6 @@ window.addEventListener('scroll', function() {
  */
 function getComment() {
   let url = '/data?limit=' + document.getElementById("quantity").value.toString();
-  console.log(url);
   fetch(url).then(response => response.json()).then((comments) => {
     const element = document.getElementById('comment-container');
     element.innerHTML = "";
