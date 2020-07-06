@@ -100,10 +100,7 @@ window.addEventListener('scroll', function() {
 function getComment() {
   fetch('/data').then(response => response.json()).then((comments) => {
     const element = document.getElementById('comment-container')
-    console.log("hi");
-    console.log(comments.length);
     comments.forEach((comment) => {
-      console.log(comment);
       element.appendChild(createCommentElement(comment));
     })
   });
