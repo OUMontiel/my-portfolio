@@ -83,33 +83,37 @@ window.addEventListener('scroll', function() {
     document.getElementById('navbar').style.padding = '30px 10px';
     document.getElementById('navbar').style.backgroundColor = 
         'rgba(0, 0, 0, 0.25)';
-    document.getElementById('myName').style.fontSize = '25px';
+    document.getElementById('navbar-name').style.fontSize = '25px';
   }
   else {
     document.getElementById('navbar').style.padding = '80px 10px';
     document.getElementById('navbar').style.backgroundColor = 
         'rgba(0, 0, 0, 1)';
-    document.getElementById('myName').style.fontSize = '35px';
+    document.getElementById('navbar-name').style.fontSize = '35px';
   }
 })
 
 /**
- * Fetches all messages (submitted via the form) from the server
+ * Fetches all comments (submitted via the form) from the server
  * and adds it to the DOM.
  */
-function getMessage() {
-  fetch('/data').then(response => response.json()).then((messages) => {
-    const element = document.getElementById('message-container')
-    element.innerHTML = '';
-    for (let key in messages) {
-      element.appendChild(createListElement(messages[key]));
-    }
+function getComment() {
+  fetch('/data').then(response => response.json()).then((comments) => {
+    const element = document.getElementById('comment-container')
+    comments.forEach((comment) => {
+      element.appendChild(createCommentElement(comment));
+    })
   });
 }
 
 /** Creates an <li> element containing text. */
-function createListElement(text) {
-  const liElement = document.createElement('li');
-  liElement.innerText = text;
-  return liElement;
+function createCommentElement(comment) {
+  const commentElement = document.createElement('li');
+  commentElement.className = 'comment';
+
+  const contentElement = document.createElement('span');
+  contentElement.innerText = comment.content;
+
+  commentElement.appendChild(contentElement);
+  return commentElement;
 }

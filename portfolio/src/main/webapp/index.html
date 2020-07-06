@@ -22,7 +22,7 @@
   <body data-spy="scroll" data-target="#navbar" data-offset="100">
     <!-- Navigation Bar -->
     <nav id="navbar" class="navbar sticky-top">
-      <a id="myName" class="navbar-brand" href="#">Omar Montiel</a>
+      <a id="navbar-name" class="navbar-brand" href="#">Omar Montiel</a>
       <ul class="nav nav-pills">
         <li class="nav-item">
           <a class="nav-link" href="#about-me">About Me</a>
@@ -63,15 +63,14 @@
       <!-- Contact Section -->
       <div id="contact" class="section">
         <a href="resume.pdf" target="_blank">Resume</a>
-        <!-- Message Input Form -->
+        <!-- Comment Input Form -->
         <form action="/data" method="POST">
-          <p>Leave a message:</p>
+          <p>Leave a comment:</p>
           <textarea name="text-input">Say hi!</textarea>
-          <br/><br/>
           <input type="submit" />
         </form>
-        <button onclick="getMessage()">Try Fetch</button> <!-- Fetch message from Data Servlet -->
-        <div id="message-container"></div> <!-- Display message from Data Servlet -->
+        <button onclick="getComment()">Try Fetch</button> <!-- Fetch comment from Data Servlet -->
+        <div id="comment-container"></div> <!-- Display comment from Data Servlet -->
       </div>
     </div>
   </body>
