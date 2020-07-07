@@ -98,7 +98,7 @@ window.addEventListener('scroll', function() {
  * and adds it to the DOM.
  */
 function getComment() {
-  let url = '/data?commentLimit=' + document.getElementById("quantity").value.toString();
+  let url = '/data?comment-limit=' + document.getElementById("quantity").value.toString();
   fetch(url).then(response => response.json()).then((comments) => {
     const element = document.getElementById('comment-container');
     element.innerHTML = "";
