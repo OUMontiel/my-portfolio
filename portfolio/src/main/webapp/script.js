@@ -98,8 +98,18 @@ window.addEventListener('scroll', function() {
  * and adds it to the DOM.
  */
 function getComment() {
-  let url = '/data?comment-limit=' + document.getElementById("quantity").value.toString();
-  fetch(url).then(response => response.json()).then((comments) => {
+  let dataUrl = '/data?comment-limit=';
+  let limitNumber = 0;
+  try {
+    limitNumber = document.getElementById("quantity").value;
+    if(limitNumber < 0) throw 'Invalid number (cannot be negative): '
+        + limitNumber.toString();
+  } catch(err) {
+    console.log(err);
+    limitNumber = 0;
+  }
+  dataUrl += limitNumber.toString();
+  fetch(dataUrl).then(response => response.json()).then((comments) => {
     const element = document.getElementById('comment-container');
     element.innerHTML = "";
     comments.forEach((comment) => {

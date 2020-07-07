@@ -49,7 +49,18 @@ public class DataServlet extends HttpServlet {
     PreparedQuery preparedQuery = datastore.prepare(query);
 
     // Set maximum number of comments to be included in the response.
-    int numOfComments = Integer.parseInt(request.getParameter("comment-limit"));
+    String numOfCommentsString = request.getParameter("comment-limit");
+    int numOfComments = 0;
+    try {
+      numOfComments = Integer.parseInt(numOfCommentsString);
+      if (numOfComments < 0) {
+        throw new NumberFormatException("Number not valid (cannot be negative): " 
+            + numOfCommentsString);
+      }
+    } catch (NumberFormatException e) {
+      System.err.println("Could not convert to int: " + numOfCommentsString);
+      numOfComments = 0;
+    }
     List<Entity> results = preparedQuery.asList(FetchOptions.Builder.withLimit(numOfComments));
 
     //Add all queried comments from Datastore
