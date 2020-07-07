@@ -46,7 +46,6 @@ public class DeleteDataServlet extends HttpServlet {
     PreparedQuery results = datastore.prepare(query);
     
     // Delete all queried comments.
-    List<Comment> comments = new ArrayList<>();
     for (Entity entity : results.asIterable()) {
       datastore.delete(entity.getKey());
     }

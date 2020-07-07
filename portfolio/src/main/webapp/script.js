@@ -119,7 +119,10 @@ function getComment() {
   });
 }
 
-/** Creates an <li> element containing text. */
+/**
+ * Creates an <li> element containing the content of a comment.
+ * @return {element}
+ */
 function createCommentElement(comment) {
   const commentElement = document.createElement('li');
   commentElement.className = 'comment';
