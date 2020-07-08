@@ -129,13 +129,27 @@ function getComment() {
  * @return {element}
  */
 function createCommentElement(comment) {
+  // Create element for comment.
   const commentElement = document.createElement('li');
   commentElement.className = 'comment';
 
+  // Create element for content and append it to comment.
   const contentElement = document.createElement('span');
   contentElement.innerText = comment.content;
-
   commentElement.appendChild(contentElement);
+
+  // Create element for image if it exists and append it to comment.
+  if (comment.imageUrl != null) {
+    const imageSourceElement = document.createElement('img');
+    imageSourceElement.src = comment.imageUrl;
+    const imageAnchorElement = document.createElement('a');
+    imageAnchorElement.href = comment.imageUrl;
+    imageAnchorElement.appendChild(imageSourceElement);
+    const imageElement = document.createElement('span');
+    imageElement.appendChild(imageAnchorElement);
+    commentElement.appendChild(imageElement);
+  }
+  
   return commentElement;
 }
 
