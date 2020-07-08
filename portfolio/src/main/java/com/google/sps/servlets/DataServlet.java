@@ -14,19 +14,91 @@
 
 package com.google.sps.servlets;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.FetchOptions;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.gson.Gson;
+import com.google.sps.data.Comment;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet that returns some placeholder comment saying 'Hello, Omar!'. TODO(oumontiel): modify this file to handle comments data */
+/** Servlet that posts and retrieves comments from Datastore. */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
+  /**
+   * Gets the comments, in JSON format, taken from user input in the form from the HTML,
+   * which are stored in the messages variable.
+   */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    response.setContentType("text/html;");
-    response.getWriter().println("<h1>Hello, Omar!</h1>");
+    // Create a query and prepare it with the data stored in Datastore.
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
+    PreparedQuery preparedQuery = datastore.prepare(query);
+
+    // Set maximum number of comments to be included in the response.
+    // Gets set to 0 when input is invalid.
+    String numOfCommentsString = request.getParameter("comment-limit");
+    int numOfComments = 0;
+    try {
+      numOfComments = Integer.parseInt(numOfCommentsString);
+      if (numOfComments < 0) {
+        throw new NumberFormatException("Number not valid (cannot be negative): " 
+            + numOfCommentsString);
+      }
+    } catch (NumberFormatException e) {
+      System.err.println("Could not convert to int: " + numOfCommentsString);
+      numOfComments = 0;
+    }
+    List<Entity> results = preparedQuery.asList(FetchOptions.Builder.withLimit(numOfComments));
+
+    //Add all queried comments from Datastore
+    //to a List of type Comment.
+    List<Comment> comments = new ArrayList<>();
+    for (Entity entity : results) {
+      long id = entity.getKey().getId();
+      String content = (String) entity.getProperty("content");
+      long timestamp = (long) entity.getProperty("timestamp");
+
+      Comment comment = new Comment(id, content, timestamp);
+      comments.add(comment);
+    }
+    
+    // Convert the comments List to JSON format.
+    Gson gson = new Gson();
+
+    response.setContentType("application/json");
+    response.getWriter().println(gson.toJson(comments));
+  }
+
+  /** Posts a comment retrieved from the form input adding it to the messages variable. */
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    // Get the comment from the form and add it to the array.
+    String content = request.getParameter("text-input");
+    long timestamp = System.currentTimeMillis();
+
+    // Create an Entity that holds the comment and the time it was created
+    // and store it in Datastore.
+    Entity commentEntity = new Entity("Comment");
+    commentEntity.setProperty("content", content);
+    commentEntity.setProperty("timestamp", timestamp);
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    datastore.put(commentEntity);
+
+    // Redirect back to the HTML page.
+    response.sendRedirect("/index.html");
   }
 }

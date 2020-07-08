@@ -41,10 +41,10 @@ BIBLE_VERSES.set('Joshua 1:9', 'Have I not commanded you? Be strong and ' +
  * @return {!ARRAY<string>}
  */
 function getRandomBibleVerse() {
-  // Pick random index
+  // Pick random index.
   const bibleVerseIndex = Math.floor(Math.random() * BIBLE_VERSES.size);
 	
-  // Select index from map
+  // Select index from map.
   let index = 0;
   let text = '';
   let verse = '';
@@ -75,7 +75,7 @@ function addRandomBibleVerse() {
 }
 
 /**
- * Changes Navbar style depending on scroll position
+ * Changes Navbar style depending on scroll position.
  */
 window.addEventListener('scroll', function() {
   if (document.body.scrollTop > 80 || 
@@ -83,12 +83,65 @@ window.addEventListener('scroll', function() {
     document.getElementById('navbar').style.padding = '30px 10px';
     document.getElementById('navbar').style.backgroundColor = 
         'rgba(0, 0, 0, 0.25)';
-    document.getElementById('logo').style.fontSize = '25px';
+    document.getElementById('navbar-name').style.fontSize = '25px';
   }
   else {
     document.getElementById('navbar').style.padding = '80px 10px';
     document.getElementById('navbar').style.backgroundColor = 
         'rgba(0, 0, 0, 1)';
-    document.getElementById('logo').style.fontSize = '35px';
+    document.getElementById('navbar-name').style.fontSize = '35px';
   }
 })
+
+/**
+ * Fetches a number of comments (submitted via the form) from the server
+ * and adds it to the DOM.
+ */
+function getComment() {
+  let dataUrl = '/data?comment-limit=';
+  let limitNumber = 0;
+  
+  // Make sure the input is an integer greater than or equal to 0.
+  // If not, set the comment-limit to 0.
+  try {
+    limitNumber = document.getElementById("quantity").value;
+    if(limitNumber < 0) throw 'Invalid number (cannot be negative): '
+        + limitNumber.toString();
+  } catch(err) {
+    console.log(err);
+    limitNumber = 0;
+  }
+  dataUrl += limitNumber.toString();
+
+  // Fetch the comments from the servlet and append them
+  // to the corresponding element.
+  fetch(dataUrl).then(response => response.json()).then((comments) => {
+    const commentContainer = document.getElementById('comment-container');
+    commentContainer.innerHTML = "";
+    comments.forEach((comment) => {
+      console.log(comment.content);
+      commentContainer.appendChild(createCommentElement(comment));
+    })
+  });
+}
+
+/**
+ * Creates an <li> element containing the content of a comment.
+ * @return {element}
+ */
+function createCommentElement(comment) {
+  const commentElement = document.createElement('li');
+  commentElement.className = 'comment';
+
+  const contentElement = document.createElement('span');
+  contentElement.innerText = comment.content;
+
+  commentElement.appendChild(contentElement);
+  return commentElement;
+}
+
+/** Deletes all comments from the server */
+function deleteComments() {
+  const request = new Request('delete-data', {method: 'POST'});
+  fetch(request).then(response => getComments());
+}
