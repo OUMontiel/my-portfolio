@@ -120,7 +120,6 @@ function getComment() {
     commentContainer.innerHTML = "";
     comments.forEach((comment) => {
       commentContainer.appendChild(createCommentElement(comment));
-      console.log(comment.imageUrl);
     })
   });
 }
