@@ -19,7 +19,7 @@
     
     <title>My Portfolio</title>
   </head>
-  <body data-spy="scroll" data-target="#navbar" data-offset="100">
+  <body onload="fetchBlobstoreUrl()" data-spy="scroll" data-target="#navbar" data-offset="100">
     <!-- Navigation Bar -->
     <nav id="navbar" class="navbar sticky-top">
       <a id="navbar-name" class="navbar-brand" href="#">Omar Montiel</a>
@@ -64,9 +64,10 @@
       <div id="contact" class="section">
         <a href="resume.pdf" target="_blank">Resume</a>
         <!-- Comment Input Form -->
-        <form action="/data" method="POST">
+        <form id="comments-form" method="POST" enctype="multipart/form-data">
           <p>Leave a comment:</p>
           <textarea name="text-input">Say hi!</textarea>
+          <input type="file" name="comment-image">
           <input type="submit" />
         </form>
         <!-- Comment Output Form -->

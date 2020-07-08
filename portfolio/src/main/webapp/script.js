@@ -119,7 +119,6 @@ function getComment() {
     const commentContainer = document.getElementById('comment-container');
     commentContainer.innerHTML = "";
     comments.forEach((comment) => {
-      console.log(comment.content);
       commentContainer.appendChild(createCommentElement(comment));
     })
   });
@@ -144,4 +143,19 @@ function createCommentElement(comment) {
 function deleteComments() {
   const request = new Request('delete-data', {method: 'POST'});
   fetch(request).then(response => getComments());
+}
+
+/**
+ * Fetch the Blobstore URL and append it to the comments form
+ * in the action attribute.
+ */
+function fetchBlobstoreUrl() {
+  fetch('/blobstore-upload-url')
+      .then((response) => {
+        return response.text();
+      })
+      .then((imageUploadUrl) => {
+        const messageForm = document.getElementById('comments-form');
+        messageForm.action = imageUploadUrl;
+      })
 }
