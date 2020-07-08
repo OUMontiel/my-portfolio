@@ -94,7 +94,7 @@ window.addEventListener('scroll', function() {
 })
 
 /**
- * Fetches all comments (submitted via the form) from the server
+ * Fetches a number of comments (submitted via the form) from the server
  * and adds it to the DOM.
  */
 function getComment() {
@@ -116,15 +116,19 @@ function getComment() {
   // Fetch the comments from the servlet and append them
   // to the corresponding element.
   fetch(dataUrl).then(response => response.json()).then((comments) => {
-    const element = document.getElementById('comment-container');
-    element.innerHTML = "";
+    const commentContainer = document.getElementById('comment-container');
+    commentContainer.innerHTML = "";
     comments.forEach((comment) => {
-      element.appendChild(createCommentElement(comment));
+      console.log(comment.content);
+      commentContainer.appendChild(createCommentElement(comment));
     })
   });
 }
 
-/** Creates an <li> element containing text. */
+/**
+ * Creates an <li> element containing the content of a comment.
+ * @return {element}
+ */
 function createCommentElement(comment) {
   const commentElement = document.createElement('li');
   commentElement.className = 'comment';
@@ -134,4 +138,10 @@ function createCommentElement(comment) {
 
   commentElement.appendChild(contentElement);
   return commentElement;
+}
+
+/** Deletes all comments from the server */
+function deleteComments() {
+  const request = new Request('delete-data', {method: 'POST'});
+  fetch(request).then(response => getComments());
 }

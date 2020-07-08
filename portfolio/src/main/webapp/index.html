@@ -69,7 +69,6 @@
           <textarea name="text-input">Say hi!</textarea>
           <input type="submit" />
         </form>
-        <br>
         <!-- Comment Output Form -->
         <form>
           <label for="quantity">How many comments do you want displayed?</label>
@@ -77,6 +76,8 @@
           <input type="button" onclick="getComment()" value="Display Comments">
         </form>
         <div id="comment-container"></div> <!-- Display comment from Data Servlet -->
+        <!-- Delete comments -->
+        <button onclick="deleteComments()">Delete all comments</button>
       </div>
     </div>
   </body>
