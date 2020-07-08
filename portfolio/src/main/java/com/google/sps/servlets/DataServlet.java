@@ -49,6 +49,7 @@ public class DataServlet extends HttpServlet {
     PreparedQuery preparedQuery = datastore.prepare(query);
 
     // Set maximum number of comments to be included in the response.
+    // Gets set to 0 when input is invalid.
     String numOfCommentsString = request.getParameter("comment-limit");
     int numOfComments = 0;
     try {
