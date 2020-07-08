@@ -142,6 +142,7 @@ function createCommentElement(comment) {
   if (comment.imageUrl != null) {
     const imageSourceElement = document.createElement('img');
     imageSourceElement.src = comment.imageUrl;
+    imageSourceElement.alt = 'Image included with the comment';
     const imageAnchorElement = document.createElement('a');
     imageAnchorElement.href = comment.imageUrl;
     imageAnchorElement.appendChild(imageSourceElement);
