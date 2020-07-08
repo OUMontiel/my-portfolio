@@ -81,9 +81,10 @@ public class DataServlet extends HttpServlet {
     for (Entity entity : results) {
       long id = entity.getKey().getId();
       String content = (String) entity.getProperty("content");
+      String imageUrl = (String) entity.getProperty("imageUrl");
       long timestamp = (long) entity.getProperty("timestamp");
 
-      Comment comment = new Comment(id, content, timestamp);
+      Comment comment = new Comment(id, content, imageUrl, timestamp);
       comments.add(comment);
     }
     
@@ -102,11 +103,13 @@ public class DataServlet extends HttpServlet {
     String imageUrl = getUploadedFileUrl(request, "comment-image");
     long timestamp = System.currentTimeMillis();
 
-    // Create an Entity that holds the comment and the time it was created
-    // and store it in Datastore.
+    // Create an Entity that holds the comment, the image
+    // and the time it was created and store it in Datastore.
     Entity commentEntity = new Entity("Comment");
     commentEntity.setProperty("content", content);
+    commentEntity.setProperty("imageUrl", imageUrl);
     commentEntity.setProperty("timestamp", timestamp);
+
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(commentEntity);
 
