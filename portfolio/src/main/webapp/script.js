@@ -116,11 +116,11 @@ function getComment() {
   // Fetch the comments from the servlet and append them
   // to the corresponding element.
   fetch(dataUrl).then(response => response.json()).then((comments) => {
-    const element = document.getElementById('comment-container');
-    element.innerHTML = "";
+    const commentContainer = document.getElementById('comment-container');
+    commentContainer.innerHTML = "";
     comments.forEach((comment) => {
       console.log(comment.content);
-      element.appendChild(createCommentElement(comment));
+      commentContainer.appendChild(createCommentElement(comment));
     })
   });
 }
