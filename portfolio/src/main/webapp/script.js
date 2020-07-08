@@ -100,6 +100,9 @@ window.addEventListener('scroll', function() {
 function getComment() {
   let dataUrl = '/data?comment-limit=';
   let limitNumber = 0;
+  
+  // Make sure the input is an integer greater than or equal to 0.
+  // If not, set the comment-limit to 0.
   try {
     limitNumber = document.getElementById("quantity").value;
     if(limitNumber < 0) throw 'Invalid number (cannot be negative): '
@@ -109,12 +112,15 @@ function getComment() {
     limitNumber = 0;
   }
   dataUrl += limitNumber.toString();
+
+  // Fetch the comments from the servlet and append them
+  // to the corresponding element.
   fetch(dataUrl).then(response => response.json()).then((comments) => {
-    const element = document.getElementById('comment-container');
-    element.innerHTML = "";
+    const commentContainer = document.getElementById('comment-container');
+    commentContainer.innerHTML = "";
     comments.forEach((comment) => {
       console.log(comment.content);
-      element.appendChild(createCommentElement(comment));
+      commentContainer.appendChild(createCommentElement(comment));
     })
   });
 }
