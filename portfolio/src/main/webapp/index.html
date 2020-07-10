@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- CSS -->
-    <link rel="stylesheet" href="style.css">
+    <link arel="stylesheet" href="style.css">
 
     <!-- JavaScript -->
     <script src="script.js"></script>
@@ -19,7 +19,7 @@
     
     <title>My Portfolio</title>
   </head>
-  <body onload="fetchBlobstoreUrl()" data-spy="scroll" data-target="#navbar" data-offset="100">
+  <body onload="fetchHome()" data-spy="scroll" data-target="#navbar" data-offset="100">
     <!-- Navigation Bar -->
     <nav id="navbar" class="navbar sticky-top">
       <a id="navbar-name" class="navbar-brand" href="#">Omar Montiel</a>
@@ -63,10 +63,12 @@
       <!-- Contact Section -->
       <div id="contact" class="section">
         <a href="resume.pdf" target="_blank">Resume</a>
+        <!-- Login Message -->
+        <div id="log"></div>
         <!-- Comment Input Form -->
-        <form id="comments-form" method="POST" enctype="multipart/form-data">
+        <form id="comments-form" class="hidden" method="POST" enctype="multipart/form-data">
           <p>Leave a comment:</p>
-          <textarea name="text-input">Say hi!</textarea>
+          <textarea name="text-input"></textarea>
           <input type="file" name="comment-image">
           <input type="submit" />
         </form>
