@@ -133,6 +133,11 @@ function createCommentElement(comment) {
   const commentElement = document.createElement('li');
   commentElement.className = 'comment';
 
+  // Create element for username and append it to comment.
+  const usernameElement = document.createElement('span');
+  usernameElement.innerText = comment.username + ': ';
+  commentElement.appendChild(usernameElement);
+
   // Create element for content and append it to comment.
   const contentElement = document.createElement('span');
   contentElement.innerText = comment.content;
@@ -162,7 +167,7 @@ function deleteComments() {
 
 /** Fetches login and Blobstore. */
 function fetchHome() {
-  //fetchLogin();
+  fetchLogin();
   fetchBlobstoreUrl();
 }
 
@@ -187,7 +192,7 @@ function fetchLogin() {
   fetch('/login').then(response => response.json()).then(user => {
     if (user.loggedIn == true) {
       // Create element that welcomes the user and prompts him to log out.
-      /*const welcomeMessage = document.createElement('h1');
+      const welcomeMessage = document.createElement('h1');
       welcomeMessage.innerHTML = 'Hello, ' + user.email + '!';
 
       const logoutUrl = document.createElement('a');
@@ -195,26 +200,32 @@ function fetchLogin() {
       logoutUrl.innerText = 'here';
 
       const logoutPrompt = document.createElement('p');
-      logoutPrompt.innerHTML = 'Click ' + logoutUrl + ' to log out.';
+      logoutPrompt.innerHTML = 'Click ';
+      logoutPrompt.appendChild(logoutUrl);
+      logoutPrompt.innerHTML += ' to log out.';
 
       const loggedInMessage = document.getElementById('log');
+      loggedInMessage.innerHTML = '';
       loggedInMessage.appendChild(welcomeMessage);
-      loggedInMessage.appendChild(logoutPrompt);*/
+      loggedInMessage.appendChild(logoutPrompt);
 
       // Show comments form.
       const commentForm = document.getElementById('comments-form');
       commentForm.classList.remove('hidden');
     } else {
       // Create element that prompts the user to login.
-      /*const loginUrl = document.createElement('a');
+      const loginUrl = document.createElement('a');
       loginUrl.href = user.logUrl;
       loginUrl.innerText = 'log in';
 
       const loginPrompt = document.createElement('p');
-      loginPrompt.innerHTML = 'To leave a comment, ' + loginUrl + '!';
+      loginPrompt.innerHTML = 'To leave a comment, ';
+      loginPrompt.appendChild(loginUrl);
+      loginPrompt.innerHTML += '!';
 
       const loggedOutMessage = document.getElementById('log');
-      loggedOutMessage.appendChiled(loginPrompt);*/
+      loggedOutMessage.innerHTML = '';
+      loggedOutMessage.appendChild(loginPrompt);
 
       // Show comments form.
       const commentForm = document.getElementById('comments-form');
