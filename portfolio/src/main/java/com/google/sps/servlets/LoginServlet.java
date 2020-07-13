@@ -43,7 +43,7 @@ public class LoginServlet extends HttpServlet {
       userEmail = userService.getCurrentUser().getEmail();
     } else {
       // Create a new user with login URL and no email.
-      String loginUrl = userService.createLoginURL(redirectUrl);
+      logUrl = userService.createLoginURL(redirectUrl);
     }
 
     // Create new user.
