@@ -34,10 +34,16 @@ public class NicknameServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     UserService userService = UserServiceFactory.getUserService();
-    String nickname = getUserNickname(userService.getCurrentUser().getUserId());
+    if (userService.isUserLoggedIn()) {
+      // If user is logged in, return nickname.
+      String nickname = getUserNickname(userService.getCurrentUser().getUserId());
 
-    response.setContentType("text/html");
-    response.getWriter().println(nickname);
+      response.setContentType("text/html");
+      response.getWriter().println(nickname);
+    } else {
+      // If user is not logged in, redirect to home page.
+      response.sendRedirect("/index.html");
+    }
   }
 
   @Override
