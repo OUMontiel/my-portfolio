@@ -103,7 +103,7 @@ public class DataServlet extends HttpServlet {
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     UserService userService = UserServiceFactory.getUserService();
     
-    // Get the comment and image from the form and add it to the array.
+    // Get the user, comment, and image from the form and add it to the array.
     String username = userService.getCurrentUser().getEmail();
     String content = request.getParameter("text-input");
     String imageUrl = getUploadedFileUrl(request, "comment-image");

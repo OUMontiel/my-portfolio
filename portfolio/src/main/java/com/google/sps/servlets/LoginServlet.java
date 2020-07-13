@@ -24,31 +24,34 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/** Servlet that creates login or logout URL and sends it as response. */
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     UserService userService = UserServiceFactory.getUserService();
+    Boolean loggedIn = false;
+    String logUrl = ""; // URL used for either login or logout.
+    String userEmail = "";
+    String redirectUrl = "/"; // Both login and logout redirect to the same URL
+
     if (userService.isUserLoggedIn()) {
       // Create a new user with logout URL and email.
-      String logoutUrl = userService.createLogoutURL("/");
-      String userEmail = userService.getCurrentUser().getEmail();
-      User user = new User(true, logoutUrl, userEmail);
-
-      // Convert the user to JSON format and return it as response.
-      Gson gson = new Gson();
-      response.setContentType("application/json");
-      response.getWriter().println(gson.toJson(user));
+      loggedIn = true;
+      logUrl = userService.createLogoutURL(redirectUrl);
+      userEmail = userService.getCurrentUser().getEmail();
     } else {
       // Create a new user with login URL and no email.
-      String loginUrl = userService.createLoginURL("/");
-      User user = new User(false, loginUrl, "");
-
-      // Convert the user to JSON format and return it as response.
-      Gson gson = new Gson();
-      response.setContentType("application/json");
-      response.getWriter().println(gson.toJson(user));
+      String loginUrl = userService.createLoginURL(redirectUrl);
     }
+
+    // Create new user.
+    User user = new User(loggedIn, logUrl, userEmail);
+
+    // Convert the user to JSON format and return it as response.
+    Gson gson = new Gson();
+    response.setContentType("application/json");
+    response.getWriter().println(gson.toJson(user));
   }
 }
