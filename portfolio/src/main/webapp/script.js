@@ -133,10 +133,10 @@ function createCommentElement(comment) {
   const commentElement = document.createElement('li');
   commentElement.className = 'comment';
 
-  // Create element for username and append it to comment.
-  const usernameElement = document.createElement('span');
-  usernameElement.innerText = comment.username + ': ';
-  commentElement.appendChild(usernameElement);
+  // Create element for nickname and append it to comment.
+  const nicknameElement = document.createElement('span');
+  nicknameElement.innerText = comment.nickname + ': ';
+  commentElement.appendChild(nicknameElement);
 
   // Create element for content and append it to comment.
   const contentElement = document.createElement('span');
@@ -197,7 +197,7 @@ function fetchLogin() {
       }
 
       // Create element that welcomes the user and prompts them to log out.
-      // "Hello, {username}!"
+      // "Hello, {nickname}!"
       // "To change nickname, click here."
       // "To log out, click here."
       const welcomeMessage = document.createElement('h1');

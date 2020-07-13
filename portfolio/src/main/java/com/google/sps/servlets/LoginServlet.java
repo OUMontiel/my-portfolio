@@ -29,24 +29,23 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet that creates login or logout URL and sends it as response. */
+/**
+ * Servlet that creates login or logout URL and sends it as response.
+ */
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
 
+  /**
+   * Instantiates a UserAuthenticationData object and returns it in JSON format.
+   */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // If user is logged in and has not set a nickname, redirect to nickname page
-    UserService userService = UserServiceFactory.getUserService();
-    if (userService.isUserLoggedIn()) {
-      
-    }
-    
-    // Create variables needed to create a user.
+    // Create variables needed to instantiate a UserAuthenticationData object.
     Boolean loggedIn = false;
     String authenticationUrl = ""; // URL used for either login or logout.
     String userEmail = "";
     String nickname = "";
-    String redirectUrl = "/"; // Both login and logout redirect to the same URL
+    String redirectUrl = "/"; // Both login and logout redirect to the same URL.
 
     // Define values for user variables depending on login status.
     if (userService.isUserLoggedIn()) {
@@ -58,7 +57,7 @@ public class LoginServlet extends HttpServlet {
         nickname = "";
         authenticationUrl = "/nickname.html";
       } else {
-        // If logged in user has nickname, set login URL.
+        // If logged in user has a nickname, set logout URL.
         authenticationUrl = userService.createLogoutURL(redirectUrl);
       }
     } else {
@@ -75,7 +74,9 @@ public class LoginServlet extends HttpServlet {
     response.getWriter().println(gson.toJson(userAuthenticationData));
   }
 
-  /** Returns the nickname of the user with id, or null if the user has not set a nickname. */
+  /**
+   * Returns the nickname of the user with id, or null if the user has not set a nickname.
+   */
   private String getUserNickname(String id) {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Query query =

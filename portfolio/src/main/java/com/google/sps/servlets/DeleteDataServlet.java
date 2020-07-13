@@ -33,11 +33,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet that deletes all data from Datastore. */
+/**
+ * Servlet that deletes all data from Datastore.
+ */
 @WebServlet("delete-data")
 public class DeleteDataServlet extends HttpServlet {
 
-  /** Deletes all comments stored in Datastore. */
+  /**
+   * Deletes all comments stored in Datastore.
+   */
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Prepare a query with all comments.

@@ -27,10 +27,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet that sets a nickname to a user. */
+/**
+ * Servlet that sets a nickname (a user-provided display name) to a user.
+ */
 @WebServlet("/nickname")
 public class NicknameServlet extends HttpServlet {
 
+  /**
+   * Returns nickname if user is logged in or redirects to home page if not.
+   */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     UserService userService = UserServiceFactory.getUserService();
@@ -46,6 +51,10 @@ public class NicknameServlet extends HttpServlet {
     }
   }
 
+  /** 
+   * Creates an entity of a user with the nickname received in the nickname.html form
+   * and adds it to Datastore.
+   */
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     UserService userService = UserServiceFactory.getUserService();

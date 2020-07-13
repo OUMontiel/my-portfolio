@@ -20,7 +20,7 @@ public final class UserAuthenticationData {
   private final boolean loggedIn;
   private final String authenticationUrl;
   private final String email;
-  private final String nickname;
+  private final String nickname; // User-provided display name.
 
   public UserAuthenticationData(boolean loggedIn, String authenticationUrl, String email) {
     this.loggedIn = loggedIn;
