@@ -55,15 +55,7 @@ public class DataServlet extends HttpServlet {
    * which are stored in the messages variable.
    */
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // If user has not set a nickname, redirect to nickname page
-    UserService userService = UserServiceFactory.getUserService();
-    String nickname = getUserNickname(userService.getCurrentUser().getUserId());
-    if (userService.isUserLoggedIn() && nickname == null) {
-      response.sendRedirect("/nickname.html");
-      return;
-    }
-    
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {    
     // Create a query and prepare it with the data stored in Datastore.
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
@@ -167,20 +159,5 @@ public class DataServlet extends HttpServlet {
     } catch(MalformedURLException e) {
       return imagesService.getServingUrl(options);
     }
-  }
-
-  /** Returns the nickname of the user with id, or null if the user has not set a nickname. */
-  private String getUserNickname(String id) {
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    Query query =
-        new Query("UserInfo")
-            .setFilter(new Query.FilterPredicate("id", Query.FilterOperator.EQUAL, id));
-    PreparedQuery results = datastore.prepare(query);
-    Entity entity = results.asSingleEntity();
-    if (entity == null) {
-      return null;
-    }
-    String nickname = (String) entity.getProperty("nickname");
-    return nickname;
   }
 }

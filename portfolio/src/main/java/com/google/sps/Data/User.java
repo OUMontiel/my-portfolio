@@ -20,10 +20,12 @@ public final class User {
   private final boolean loggedIn;
   private final String logUrl; // URL used for either login or logout.
   private final String email;
+  private final String nickname;
 
-  public User(boolean loggedIn, String logUrl, String email) {
+  public User(boolean loggedIn, String logUrl, String email, String nickname) {
     this.loggedIn = loggedIn;
     this.logUrl = logUrl;
     this.email = email;
+    this.nickname = nickname;
   }
 }

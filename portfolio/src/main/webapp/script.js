@@ -191,22 +191,37 @@ function fetchBlobstoreUrl() {
 function fetchLogin() {
   fetch('/login').then(response => response.json()).then(user => {
     if (user.loggedIn == true) {
+      // If logged in user has no nickname, redirect to nickname setup page.
+      if(user.nickname == "") {
+        window.location.replace(user.logUrl);
+      }
+
       // Create element that welcomes the user and prompts him to log out.
       const welcomeMessage = document.createElement('h1');
-      welcomeMessage.innerHTML = 'Hello, ' + user.email + '!';
+      welcomeMessage.innerHTML = 'Hello, ' + user.nickname + '!';
+
+      const changeNicknameUrl = document.createElement('a');
+      changeNicknameUrl.href = '/nickname.html';
+      changeNicknameUrl.innerText = 'here';
+
+      const changeNickname = document.createElement('p');
+      changeNickname.innerHTML = 'To change nickname, click ';
+      changeNickname.appendChild(changeNicknameUrl);
+      changeNickname.innerHTML += '.';
 
       const logoutUrl = document.createElement('a');
       logoutUrl.href = user.logUrl;
       logoutUrl.innerText = 'here';
 
       const logoutPrompt = document.createElement('p');
-      logoutPrompt.innerHTML = 'Click ';
+      logoutPrompt.innerHTML = 'To log out, click ';
       logoutPrompt.appendChild(logoutUrl);
-      logoutPrompt.innerHTML += ' to log out.';
+      logoutPrompt.innerHTML += '.';
 
       const loggedInMessage = document.getElementById('log');
       loggedInMessage.innerHTML = '';
       loggedInMessage.appendChild(welcomeMessage);
+      loggedInMessage.appendChild(changeNickname);
       loggedInMessage.appendChild(logoutPrompt);
 
       // Show comments form.
