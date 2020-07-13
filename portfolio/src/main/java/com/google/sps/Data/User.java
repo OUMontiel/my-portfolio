@@ -14,16 +14,16 @@
 
 package com.google.sps.data;
 
-/** A user and its log in credentials, used to authenticate that user. */
-public final class User {
+/** The data used to authenticate a user. */
+public final class UserAuthenticationData {
 
   private final boolean loggedIn;
-  private final String logUrl; // URL used for either login or logout.
+  private final String authenticationUrl;
   private final String email;
 
-  public User(boolean loggedIn, String logUrl, String email) {
+  public UserAuthenticationData(boolean loggedIn, String authenticationUrl, String email) {
     this.loggedIn = loggedIn;
-    this.logUrl = logUrl;
+    this.authenticationUrl = authenticationUrl;
     this.email = email;
   }
 }

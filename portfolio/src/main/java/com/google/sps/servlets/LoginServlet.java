@@ -32,26 +32,27 @@ public class LoginServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     UserService userService = UserServiceFactory.getUserService();
     Boolean loggedIn = false;
-    String logUrl = ""; // URL used for either login or logout.
+    String authenticationUrl = ""; // URL used for either login or logout.
     String userEmail = "";
     String redirectUrl = "/"; // Both login and logout redirect to the same URL
 
     if (userService.isUserLoggedIn()) {
       // Create a new user with logout URL and email.
       loggedIn = true;
-      logUrl = userService.createLogoutURL(redirectUrl);
+      authenticationUrl = userService.createLogoutURL(redirectUrl);
       userEmail = userService.getCurrentUser().getEmail();
     } else {
       // Create a new user with login URL and no email.
-      logUrl = userService.createLoginURL(redirectUrl);
+      authenticationUrl = userService.createLoginURL(redirectUrl);
     }
 
     // Create new user.
-    User user = new User(loggedIn, logUrl, userEmail);
+    UserAuthenticationData userAuthenticationData =
+        new UserAuthenticationData(loggedIn, authenticationUrl, userEmail);
 
     // Convert the user to JSON format and return it as response.
     Gson gson = new Gson();
     response.setContentType("application/json");
-    response.getWriter().println(gson.toJson(user));
+    response.getWriter().println(gson.toJson(userAuthenticationData));
   }
 }
