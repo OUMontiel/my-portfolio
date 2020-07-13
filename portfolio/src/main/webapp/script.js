@@ -165,14 +165,14 @@ function deleteComments() {
   fetch(request).then(response => getComments());
 }
 
-/** Fetches login and Blobstore. */
+/** Fetches Login and Blobstore servlets. */
 function fetchHome() {
   fetchLogin();
   fetchBlobstoreUrl();
 }
 
 /**
- * Fetches the Blobstore URL and append it to the comments form
+ * Fetches the Blobstore URL and appends it to the comments form
  * in the action attribute.
  */
 function fetchBlobstoreUrl() {
@@ -196,7 +196,10 @@ function fetchLogin() {
         window.location.replace(user.logUrl);
       }
 
-      // Create element that welcomes the user and prompts him to log out.
+      // Create element that welcomes the user and prompts them to log out.
+      // "Hello, {username}!"
+      // "To change nickname, click here."
+      // "To log out, click here."
       const welcomeMessage = document.createElement('h1');
       welcomeMessage.innerHTML = 'Hello, ' + user.nickname + '!';
 
@@ -218,7 +221,7 @@ function fetchLogin() {
       logoutPrompt.appendChild(logoutUrl);
       logoutPrompt.innerHTML += '.';
 
-      const loggedInMessage = document.getElementById('log');
+      const loggedInMessage = document.getElementById('authentication');
       loggedInMessage.innerHTML = '';
       loggedInMessage.appendChild(welcomeMessage);
       loggedInMessage.appendChild(changeNickname);
@@ -229,6 +232,7 @@ function fetchLogin() {
       commentForm.classList.remove('hidden');
     } else {
       // Create element that prompts the user to login.
+      // "To leave a comment, log in!"
       const loginUrl = document.createElement('a');
       loginUrl.href = user.logUrl;
       loginUrl.innerText = 'log in';
@@ -238,11 +242,11 @@ function fetchLogin() {
       loginPrompt.appendChild(loginUrl);
       loginPrompt.innerHTML += '!';
 
-      const loggedOutMessage = document.getElementById('log');
+      const loggedOutMessage = document.getElementById('authentication');
       loggedOutMessage.innerHTML = '';
       loggedOutMessage.appendChild(loginPrompt);
 
-      // Show comments form.
+      // Hide comments form.
       const commentForm = document.getElementById('comments-form');
       commentForm.classList.add('hidden');
     }

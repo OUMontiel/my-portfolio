@@ -43,7 +43,7 @@ public class LoginServlet extends HttpServlet {
     
     // Create variables needed to create a user.
     Boolean loggedIn = false;
-    String logUrl = ""; // URL used for either login or logout.
+    String authenticationUrl = ""; // URL used for either login or logout.
     String userEmail = "";
     String nickname = "";
     String redirectUrl = "/"; // Both login and logout redirect to the same URL
@@ -56,22 +56,23 @@ public class LoginServlet extends HttpServlet {
       if (nickname == null) {
         // If logged in user has no nickname, redirect to nickname setup page.
         nickname = "";
-        logUrl = "/nickname.html";
+        authenticationUrl = "/nickname.html";
       } else {
         // If logged in user has nickname, set login URL.
-        logUrl = userService.createLogoutURL(redirectUrl);
+        authenticationUrl = userService.createLogoutURL(redirectUrl);
       }
     } else {
-      logUrl = userService.createLoginURL(redirectUrl);
+      authenticationUrl = userService.createLoginURL(redirectUrl);
     }
 
     // Create new user.
-    User user = new User(loggedIn, logUrl, userEmail, nickname);
+    UserAuthenticationData userAuthenticationData =
+        new UserAuthenticationData(loggedIn, authenticationUrl, userEmail, nickname);
 
     // Convert the user to JSON format and return it as response.
     Gson gson = new Gson();
     response.setContentType("application/json");
-    response.getWriter().println(gson.toJson(user));
+    response.getWriter().println(gson.toJson(userAuthenticationData));
   }
 
   /** Returns the nickname of the user with id, or null if the user has not set a nickname. */
