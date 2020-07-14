@@ -41,7 +41,7 @@ public class NicknameServlet extends HttpServlet {
     UserService userService = UserServiceFactory.getUserService();
     if (userService.isUserLoggedIn()) {
       // If user is logged in, return nickname.
-      String nickname = getUserNickname(userService.getCurrentUser().getUserId());
+      String nickname = userService.getCurrentUser().getNickname();
 
       response.setContentType("text/html");
       response.getWriter().println(nickname);
@@ -69,22 +69,5 @@ public class NicknameServlet extends HttpServlet {
     datastore.put(entity);
 
     response.sendRedirect("/index.html");
-  }
-
-  /**
-   * Returns the nickname of the user with id, or empty String if the user has not set a nickname.
-   */
-  private String getUserNickname(String id) {
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    Query query =
-        new Query("UserInfo")
-            .setFilter(new Query.FilterPredicate("id", Query.FilterOperator.EQUAL, id));
-    PreparedQuery results = datastore.prepare(query);
-    Entity entity = results.asSingleEntity();
-    if (entity == null) {
-      return "";
-    }
-    String nickname = (String) entity.getProperty("nickname");
-    return nickname;
   }
 }

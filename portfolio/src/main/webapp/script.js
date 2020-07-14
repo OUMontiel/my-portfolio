@@ -193,7 +193,7 @@ function fetchLogin() {
     if (user.loggedIn == true) {
       // If logged in user has no nickname, redirect to nickname setup page.
       if(user.nickname == "") {
-        window.location.replace(user.logUrl);
+        window.location.replace(user.authenticationUrl);
       }
 
       // Create element that welcomes the user and prompts them to log out.
@@ -213,7 +213,7 @@ function fetchLogin() {
 
       // "To log out, click here."
       const logoutUrl = document.createElement('a');
-      logoutUrl.href = user.logUrl;
+      logoutUrl.href = user.authenticationUrl;
       logoutUrl.innerText = 'here';
 
       const logoutPrompt = document.createElement('p');
@@ -234,7 +234,7 @@ function fetchLogin() {
       // Create element that prompts the user to login.
       // "To leave a comment, log in!"
       const loginUrl = document.createElement('a');
-      loginUrl.href = user.logUrl;
+      loginUrl.href = user.authenticationUrl;
       loginUrl.innerText = 'log in';
 
       const loginPrompt = document.createElement('p');

@@ -108,7 +108,7 @@ public class DataServlet extends HttpServlet {
     UserService userService = UserServiceFactory.getUserService();
     
     // Get the nickname, comment content, comment image and current time to add it to Datastore.
-    String nickname = getUserNickname(userService.getCurrentUser().getUserId());
+    String nickname = userService.getCurrentUser().getNickname();
     String content = request.getParameter("text-input");
     String imageUrl = getUploadedFileUrl(request, "comment-image");
     long timestamp = System.currentTimeMillis();
@@ -165,21 +165,5 @@ public class DataServlet extends HttpServlet {
     } catch(MalformedURLException e) {
       return imagesService.getServingUrl(options);
     }
-  }
-
-  /**
-   * Returns the nickname of the user with id, or empty String if the user has not set a nickname.
-   */
-  private String getUserNickname(String id) {
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    Query query =
-        new Query("UserInfo")
-            .setFilter(new Query.FilterPredicate("id", Query.FilterOperator.EQUAL, id));
-    PreparedQuery results = datastore.prepare(query);
-    Entity entity = results.asSingleEntity();
-    if (entity == null) {
-      return "";
-    }
-    return (String) entity.getProperty("nickname");
   }
 }
