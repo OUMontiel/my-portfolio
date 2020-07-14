@@ -198,11 +198,10 @@ function fetchLogin() {
 
       // Create element that welcomes the user and prompts them to log out.
       // "Hello, {nickname}!"
-      // "To change nickname, click here."
-      // "To log out, click here."
       const welcomeMessage = document.createElement('h1');
       welcomeMessage.innerHTML = 'Hello, ' + user.nickname + '!';
 
+      // "To change nickname, click here."
       const changeNicknameUrl = document.createElement('a');
       changeNicknameUrl.href = '/nickname.html';
       changeNicknameUrl.innerText = 'here';
@@ -212,6 +211,7 @@ function fetchLogin() {
       changeNickname.appendChild(changeNicknameUrl);
       changeNickname.innerHTML += '.';
 
+      // "To log out, click here."
       const logoutUrl = document.createElement('a');
       logoutUrl.href = user.logUrl;
       logoutUrl.innerText = 'here';
