@@ -31,6 +31,8 @@ import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
 import com.google.sps.data.Comment;
 import java.io.IOException;
@@ -75,16 +77,17 @@ public class DataServlet extends HttpServlet {
     }
     List<Entity> results = preparedQuery.asList(FetchOptions.Builder.withLimit(numOfComments));
 
-    //Add all queried comments from Datastore
-    //to a List of type Comment.
+    // Add all queried comments from Datastore
+    // to a List of type Comment.
     List<Comment> comments = new ArrayList<>();
     for (Entity entity : results) {
       long id = entity.getKey().getId();
+      String username = (String) entity.getProperty("username");
       String content = (String) entity.getProperty("content");
       String imageUrl = (String) entity.getProperty("imageUrl");
       long timestamp = (long) entity.getProperty("timestamp");
 
-      Comment comment = new Comment(id, content, imageUrl, timestamp);
+      Comment comment = new Comment(id, username, content, imageUrl, timestamp);
       comments.add(comment);
     }
     
@@ -98,7 +101,10 @@ public class DataServlet extends HttpServlet {
   /** Posts a comment retrieved from the form input adding it to the messages variable. */
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // Get the comment and image from the form and add it to the array.
+    UserService userService = UserServiceFactory.getUserService();
+    
+    // Get the user, comment, and image from the form and add it to the array.
+    String username = userService.getCurrentUser().getEmail();
     String content = request.getParameter("text-input");
     String imageUrl = getUploadedFileUrl(request, "comment-image");
     long timestamp = System.currentTimeMillis();
@@ -106,6 +112,7 @@ public class DataServlet extends HttpServlet {
     // Create an Entity that holds the comment, the image
     // and the time it was created and store it in Datastore.
     Entity commentEntity = new Entity("Comment");
+    commentEntity.setProperty("username", username);
     commentEntity.setProperty("content", content);
     commentEntity.setProperty("imageUrl", imageUrl);
     commentEntity.setProperty("timestamp", timestamp);

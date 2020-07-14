@@ -14,20 +14,16 @@
 
 package com.google.sps.data;
 
-/** A comment from user input. */
-public final class Comment {
+/** The data used to authenticate a user. */
+public final class UserAuthenticationData {
 
-  private final long id;
-  private final String username;
-  private final String content;
-  private final String imageUrl;
-  private final long timestamp;
+  private final boolean loggedIn;
+  private final String authenticationUrl;
+  private final String email;
 
-  public Comment(long id, String username, String content, String imageUrl, long timestamp) {
-    this.id = id;
-    this.username = username;
-    this.content = content;
-    this.imageUrl = imageUrl;
-    this.timestamp = timestamp;
+  public UserAuthenticationData(boolean loggedIn, String authenticationUrl, String email) {
+    this.loggedIn = loggedIn;
+    this.authenticationUrl = authenticationUrl;
+    this.email = email;
   }
 }

@@ -115,9 +115,9 @@ function getComment() {
 
   // Fetch the comments from the servlet and append them
   // to the corresponding element.
-  fetch(dataUrl).then(response => response.json()).then((comments) => {
+  fetch(dataUrl).then(response => response.json()).then(comments => {
     const commentContainer = document.getElementById('comment-container');
-    commentContainer.innerHTML = "";
+    commentContainer.innerHTML = '';
     comments.forEach((comment) => {
       commentContainer.appendChild(createCommentElement(comment));
     })
@@ -132,6 +132,11 @@ function createCommentElement(comment) {
   // Create element for comment.
   const commentElement = document.createElement('li');
   commentElement.className = 'comment';
+
+  // Create element for username and append it to comment.
+  const usernameElement = document.createElement('span');
+  usernameElement.innerText = comment.username + ': ';
+  commentElement.appendChild(usernameElement);
 
   // Create element for content and append it to comment.
   const contentElement = document.createElement('span');
@@ -160,17 +165,74 @@ function deleteComments() {
   fetch(request).then(response => getComments());
 }
 
+/** Fetches Login and Blobstore servlets. */
+function fetchHome() {
+  fetchLogin();
+  fetchBlobstoreUrl();
+}
+
 /**
- * Fetch the Blobstore URL and append it to the comments form
+ * Fetches the Blobstore URL and appends it to the comments form
  * in the action attribute.
  */
 function fetchBlobstoreUrl() {
   fetch('/blobstore-upload-url')
-      .then((response) => {
-        return response.text();
-      })
-      .then((imageUploadUrl) => {
+      .then(response => response.text())
+      .then(imageUploadUrl => {
         const messageForm = document.getElementById('comments-form');
         messageForm.action = imageUploadUrl;
-      })
+      });
+}
+
+/**
+ * Fetches the Login Servlet and displayes a message
+ * according to the condition of the user being logged in or out.
+ */
+function fetchLogin() {
+  fetch('/login').then(response => response.json()).then(user => {
+    if (user.loggedIn == true) {
+      // Create element that welcomes the user and prompts them to log out.
+      // "Hello, {username}!"
+      // "Click here to log out."
+      const welcomeMessage = document.createElement('h1');
+      welcomeMessage.innerHTML = 'Hello, ' + user.email + '!';
+
+      const logoutUrl = document.createElement('a');
+      logoutUrl.href = user.logUrl;
+      logoutUrl.innerText = 'here';
+
+      const logoutPrompt = document.createElement('p');
+      logoutPrompt.innerHTML = 'Click ';
+      logoutPrompt.appendChild(logoutUrl);
+      logoutPrompt.innerHTML += ' to log out.';
+
+      const loggedInMessage = document.getElementById('authentication');
+      loggedInMessage.innerHTML = '';
+      loggedInMessage.appendChild(welcomeMessage);
+      loggedInMessage.appendChild(logoutPrompt);
+
+      // Show comments form.
+      const commentForm = document.getElementById('comments-form');
+      commentForm.classList.remove('hidden');
+    } else {
+      // Create element that prompts the user to login.
+      // "To leave a comment, log in!"
+      const loginUrl = document.createElement('a');
+      loginUrl.href = user.logUrl;
+      loginUrl.innerText = 'log in';
+
+      const loginPrompt = document.createElement('p');
+      loginPrompt.innerHTML = 'To leave a comment, ';
+      loginPrompt.appendChild(loginUrl);
+      loginPrompt.innerHTML += '!';
+
+      const loggedOutMessage = document.getElementById('authentication');
+      loggedOutMessage.innerHTML = '';
+      loggedOutMessage.appendChild(loginPrompt);
+
+      // Hide comments form.
+      const commentForm = document.getElementById('comments-form');
+      commentForm.classList.add('hidden');
+    }
+  });
 }

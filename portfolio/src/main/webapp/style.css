@@ -17,6 +17,10 @@ body {
   width: 100%;
 }
 
+.hidden {
+  display: none;
+}
+
 .navbar {
   transition: 0.6s;
 }
