@@ -162,7 +162,7 @@ function createCommentElement(comment) {
 /** Deletes all comments from the server */
 function deleteComments() {
   const request = new Request('delete-data', {method: 'POST'});
-  fetch(request).then(response => getComments());
+  fetch(request).then(response => getComment());
 }
 
 /** Fetches Login and Blobstore servlets. */

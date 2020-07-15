@@ -34,6 +34,7 @@ import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
+import com.google.sps.classes.Utils;
 import com.google.sps.data.Comment;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -108,7 +109,7 @@ public class DataServlet extends HttpServlet {
     UserService userService = UserServiceFactory.getUserService();
     
     // Get the nickname, comment content, comment image and current time to add it to Datastore.
-    String nickname = userService.getCurrentUser().getNickname();
+    String nickname = Utils.getUserNickname(userService.getCurrentUser().getUserId());
     String content = request.getParameter("text-input");
     String imageUrl = getUploadedFileUrl(request, "comment-image");
     long timestamp = System.currentTimeMillis();

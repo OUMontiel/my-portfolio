@@ -21,6 +21,7 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
+import com.google.sps.classes.Utils;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -41,7 +42,7 @@ public class NicknameServlet extends HttpServlet {
     UserService userService = UserServiceFactory.getUserService();
     if (userService.isUserLoggedIn()) {
       // If user is logged in, return nickname.
-      String nickname = userService.getCurrentUser().getNickname();
+      String nickname = Utils.getUserNickname(userService.getCurrentUser().getUserId());
 
       response.setContentType("text/html");
       response.getWriter().println(nickname);

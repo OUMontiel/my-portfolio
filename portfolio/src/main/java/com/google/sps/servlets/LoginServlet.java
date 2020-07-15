@@ -22,6 +22,7 @@ import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
+import com.google.sps.classes.Utils;
 import com.google.sps.data.UserAuthenticationData;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
@@ -53,10 +54,9 @@ public class LoginServlet extends HttpServlet {
     if (userService.isUserLoggedIn()) {
       loggedIn = true;
       userEmail = userService.getCurrentUser().getEmail();
-      nickname = getUserNickname(userService.getCurrentUser().getUserId());
-      if (nickname == null) {
+      nickname = Utils.getUserNickname(userService.getCurrentUser().getUserId());
+      if (nickname == "") {
         // If logged in user has no nickname, redirect to nickname setup page.
-        nickname = "";
         authenticationUrl = "/nickname.html";
       } else {
         // If logged in user has a nickname, set logout URL.
@@ -74,22 +74,5 @@ public class LoginServlet extends HttpServlet {
     Gson gson = new Gson();
     response.setContentType("application/json");
     response.getWriter().println(gson.toJson(userAuthenticationData));
-  }
-
-  /**
-   * Returns the nickname of the user with id, or null if the user has not set a nickname.
-   */
-  private String getUserNickname(String id) {
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    Query query =
-        new Query("UserInfo")
-            .setFilter(new Query.FilterPredicate("id", Query.FilterOperator.EQUAL, id));
-    PreparedQuery results = datastore.prepare(query);
-    Entity entity = results.asSingleEntity();
-    if (entity == null) {
-      return null;
-    }
-    String nickname = (String) entity.getProperty("nickname");
-    return nickname;
   }
 }
