@@ -133,10 +133,10 @@ function createCommentElement(comment) {
   const commentElement = document.createElement('li');
   commentElement.className = 'comment';
 
-  // Create element for username and append it to comment.
-  const usernameElement = document.createElement('span');
-  usernameElement.innerText = comment.username + ': ';
-  commentElement.appendChild(usernameElement);
+  // Create element for nickname and append it to comment.
+  const nicknameElement = document.createElement('span');
+  nicknameElement.innerText = comment.nickname + ': ';
+  commentElement.appendChild(nicknameElement);
 
   // Create element for content and append it to comment.
   const contentElement = document.createElement('span');
@@ -162,7 +162,7 @@ function createCommentElement(comment) {
 /** Deletes all comments from the server */
 function deleteComments() {
   const request = new Request('delete-data', {method: 'POST'});
-  fetch(request).then(response => getComments());
+  fetch(request).then(response => getComment());
 }
 
 /** Fetches Login and Blobstore servlets. */
@@ -191,24 +191,40 @@ function fetchBlobstoreUrl() {
 function fetchLogin() {
   fetch('/login').then(response => response.json()).then(user => {
     if (user.loggedIn == true) {
-      // Create element that welcomes the user and prompts them to log out.
-      // "Hello, {username}!"
-      // "Click here to log out."
-      const welcomeMessage = document.createElement('h1');
-      welcomeMessage.innerHTML = 'Hello, ' + user.email + '!';
+      // If logged in user has no nickname, redirect to nickname setup page.
+      if(user.nickname == "") {
+        window.location.replace(user.authenticationUrl);
+      }
 
+      // Create element that welcomes the user and prompts them to log out.
+      // "Hello, {nickname}!"
+      const welcomeMessage = document.createElement('h1');
+      welcomeMessage.innerHTML = 'Hello, ' + user.nickname + '!';
+
+      // "To change nickname, click here."
+      const changeNicknameUrl = document.createElement('a');
+      changeNicknameUrl.href = '/nickname.html';
+      changeNicknameUrl.innerText = 'here';
+
+      const changeNickname = document.createElement('p');
+      changeNickname.innerHTML = 'To change nickname, click ';
+      changeNickname.appendChild(changeNicknameUrl);
+      changeNickname.innerHTML += '.';
+
+      // "To log out, click here."
       const logoutUrl = document.createElement('a');
-      logoutUrl.href = user.logUrl;
+      logoutUrl.href = user.authenticationUrl;
       logoutUrl.innerText = 'here';
 
       const logoutPrompt = document.createElement('p');
-      logoutPrompt.innerHTML = 'Click ';
+      logoutPrompt.innerHTML = 'To log out, click ';
       logoutPrompt.appendChild(logoutUrl);
-      logoutPrompt.innerHTML += ' to log out.';
+      logoutPrompt.innerHTML += '.';
 
       const loggedInMessage = document.getElementById('authentication');
       loggedInMessage.innerHTML = '';
       loggedInMessage.appendChild(welcomeMessage);
+      loggedInMessage.appendChild(changeNickname);
       loggedInMessage.appendChild(logoutPrompt);
 
       // Show comments form.
@@ -218,7 +234,7 @@ function fetchLogin() {
       // Create element that prompts the user to login.
       // "To leave a comment, log in!"
       const loginUrl = document.createElement('a');
-      loginUrl.href = user.logUrl;
+      loginUrl.href = user.authenticationUrl;
       loginUrl.innerText = 'log in';
 
       const loginPrompt = document.createElement('p');

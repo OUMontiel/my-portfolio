@@ -22,7 +22,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet that returns a Blobstore URL. */
+/**
+ * Servlet that returns a Blobstore URL.
+ */
 @WebServlet("/blobstore-upload-url")
 public class BlobstoreUploadUrlServlet extends HttpServlet {
 

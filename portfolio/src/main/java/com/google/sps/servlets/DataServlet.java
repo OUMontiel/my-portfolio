@@ -34,6 +34,7 @@ import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
+import com.google.sps.classes.Utils;
 import com.google.sps.data.Comment;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -46,7 +47,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet that posts and retrieves comments from Datastore. */
+/**
+ * Servlet that posts and retrieves comments from Datastore.
+ */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
@@ -82,12 +85,12 @@ public class DataServlet extends HttpServlet {
     List<Comment> comments = new ArrayList<>();
     for (Entity entity : results) {
       long id = entity.getKey().getId();
-      String username = (String) entity.getProperty("username");
+      String nickname = (String) entity.getProperty("nickname");
       String content = (String) entity.getProperty("content");
       String imageUrl = (String) entity.getProperty("imageUrl");
       long timestamp = (long) entity.getProperty("timestamp");
 
-      Comment comment = new Comment(id, username, content, imageUrl, timestamp);
+      Comment comment = new Comment(id, nickname, content, imageUrl, timestamp);
       comments.add(comment);
     }
     
@@ -98,13 +101,15 @@ public class DataServlet extends HttpServlet {
     response.getWriter().println(gson.toJson(comments));
   }
 
-  /** Posts a comment retrieved from the form input adding it to the messages variable. */
+  /**
+   * Posts a comment retrieved from the form input adding it to the messages variable.
+   */
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     UserService userService = UserServiceFactory.getUserService();
     
-    // Get the user, comment, and image from the form and add it to the array.
-    String username = userService.getCurrentUser().getEmail();
+    // Get the nickname, comment content, comment image and current time to add it to Datastore.
+    String nickname = Utils.getUserNickname(userService.getCurrentUser().getUserId());
     String content = request.getParameter("text-input");
     String imageUrl = getUploadedFileUrl(request, "comment-image");
     long timestamp = System.currentTimeMillis();
@@ -112,7 +117,7 @@ public class DataServlet extends HttpServlet {
     // Create an Entity that holds the comment, the image
     // and the time it was created and store it in Datastore.
     Entity commentEntity = new Entity("Comment");
-    commentEntity.setProperty("username", username);
+    commentEntity.setProperty("nickname", nickname);
     commentEntity.setProperty("content", content);
     commentEntity.setProperty("imageUrl", imageUrl);
     commentEntity.setProperty("timestamp", timestamp);
@@ -124,7 +129,9 @@ public class DataServlet extends HttpServlet {
     response.sendRedirect("/index.html");
   }
 
-  /** Returns a URL that points to the uploaded file, or null if the user didn't upload a file. */
+  /**
+   * Returns a URL that points to the uploaded file, or null if the user didn't upload a file.
+   */
   private String getUploadedFileUrl(HttpServletRequest request, String formInputElementName) {
     BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
     Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(request);

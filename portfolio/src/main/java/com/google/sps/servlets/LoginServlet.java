@@ -14,41 +14,61 @@
 
 package com.google.sps.servlets;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
-import com.google.sps.data.User;
+import com.google.sps.classes.Utils;
+import com.google.sps.data.UserAuthenticationData;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet that creates login or logout URL and sends it as response. */
+/**
+ * Servlet that creates login or logout URL and sends it as response.
+ */
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
 
+  /**
+   * Instantiates a UserAuthenticationData object and returns it in JSON format.
+   */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     UserService userService = UserServiceFactory.getUserService();
+    
+    // Create variables needed to instantiate a UserAuthenticationData object.
     Boolean loggedIn = false;
     String authenticationUrl = ""; // URL used for either login or logout.
     String userEmail = "";
-    String redirectUrl = "/"; // Both login and logout redirect to the same URL
+    String nickname = "";
+    String redirectUrl = "/"; // Both login and logout redirect to the same URL.
 
+    // Define values for user variables depending on login status.
     if (userService.isUserLoggedIn()) {
-      // Create a new user with logout URL and email.
       loggedIn = true;
-      authenticationUrl = userService.createLogoutURL(redirectUrl);
       userEmail = userService.getCurrentUser().getEmail();
+      nickname = Utils.getUserNickname(userService.getCurrentUser().getUserId());
+      if (nickname == "") {
+        // If logged in user has no nickname, redirect to nickname setup page.
+        authenticationUrl = "/nickname.html";
+      } else {
+        // If logged in user has a nickname, set logout URL.
+        authenticationUrl = userService.createLogoutURL(redirectUrl);
+      }
     } else {
-      // Create a new user with login URL and no email.
       authenticationUrl = userService.createLoginURL(redirectUrl);
     }
 
     // Create new user.
     UserAuthenticationData userAuthenticationData =
-        new UserAuthenticationData(loggedIn, authenticationUrl, userEmail);
+        new UserAuthenticationData(loggedIn, authenticationUrl, userEmail, nickname);
 
     // Convert the user to JSON format and return it as response.
     Gson gson = new Gson();
