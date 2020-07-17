@@ -114,8 +114,7 @@ public final class FindMeetingQuery {
 
     // Check for last time range.
     if (inTimeRange) {
-      TimeRange tr = TimeRange.fromStartEnd(timeRangeStart, timeRangeEnd, true);
-      availableTimeSlots.add(tr);
+      availableTimeSlots.add(TimeRange.fromStartEnd(timeRangeStart, timeRangeEnd, true));
     }
 
     return availableTimeSlots;
