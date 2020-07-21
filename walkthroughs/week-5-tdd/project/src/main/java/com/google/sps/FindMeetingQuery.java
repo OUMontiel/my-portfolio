@@ -28,9 +28,11 @@ public final class FindMeetingQuery {
   /**
    * Finds all the available time slots for a meeting given the time required for the meeting, the
    * people that need to attend that meeting, and other events scheduled for the day. This
-   * algorithm is O(1) in terms of space complexity, requiring a boolean array of fixed size
-   * (24 * 60). It is O(mn) in time complexity, 'm' being the number of attendees required for the
-   * meeting and 'n' being the events of the day.
+   * algorithm requires an additional space complexity of O(1), accounting for a boolean array of
+   * fixed size (24 * 60) and a strictly smaller array of time ranges. It is O(mn) in time
+   * complexity, 'm' being the number of attendees required for the meeting and 'n' being the
+   * events of the day (the eventAttendees variable is a HashSet, making its lookup O(1), not
+   * adding time complexity to the algorithm).
    * @param events all the events scheduled for a given day, with their attendees and time range.
    * @param request the request for a meeting, with their required attendees and minimum duration.
    * @return the available time slots during the day where setting the meeting is possible.
@@ -84,32 +86,33 @@ public final class FindMeetingQuery {
     }
 
     List<TimeRange> availableTimeSlots = new ArrayList<>();
-    boolean inTimeRange = false;
-    int timeRangeStart = 0;
-    int timeRangeEnd = 0;
+    boolean inAvailableTimeSlot = false;
+    int availableTimeSlotStart = 0;
+    int availableTimeSlotEnd = 0;
     for (int i = 0; i < unavailableMinutes.length; i++) {
-      if (!unavailableMinutes[i] && !inTimeRange) {
-        // If the current minute is available but not in a time range, start the time range and set
-        // this minute to the start of that time range.
-        inTimeRange = true;
-        timeRangeStart = i;
-      } else if (!unavailableMinutes[i] && inTimeRange) {
-        // If the current minute is available and already in a time range, update the end of this
-        // time range to this minute.
-        timeRangeEnd = i;
-      } else if (inTimeRange) {
-        // If the current minute is unavailable but inside a time range, end the time range and add
-        // it to the list of available time slots if its duration is greater than the required.
-        inTimeRange = false;
-        if (timeRangeEnd - timeRangeStart + 1 >= duration) {
-          availableTimeSlots.add(TimeRange.fromStartEnd(timeRangeStart, timeRangeEnd, true));
+      if (!unavailableMinutes[i] && !inAvailableTimeSlot) {
+        // If the current minute is available but not in an available time slot, start the
+        // available time slot and set this minute to the start of that time slot.
+        inAvailableTimeSlot = true;
+        availableTimeSlotStart = i;
+      } else if (!unavailableMinutes[i] && inAvailableTimeSlot) {
+        // If the current minute is available and already in an available time slot, update the end
+        // of this time slot to this minute.
+        availableTimeSlotEnd = i;
+      } else if (inAvailableTimeSlot) {
+        // If the current minute is unavailable but inside an available time slot, end the time
+        // slot and add it to the list of available time slots if its duration is greater than the
+        // required.
+        inAvailableTimeSlot = false;
+        if (availableTimeSlotEnd - availableTimeSlotStart + 1 >= duration) {
+          availableTimeSlots.add(TimeRange.fromStartEnd(availableTimeSlotStart, availableTimeSlotEnd, true));
         }
       }
     }
 
-    // Check for last time range.
-    if (inTimeRange) {
-      availableTimeSlots.add(TimeRange.fromStartEnd(timeRangeStart, timeRangeEnd, true));
+    // Check for last available time slot.
+    if (inAvailableTimeSlot) {
+      availableTimeSlots.add(TimeRange.fromStartEnd(availableTimeSlotStart, availableTimeSlotEnd, true));
     }
 
     return availableTimeSlots;
