@@ -88,20 +88,20 @@ public final class FindMeetingQuery {
     int timeRangeStart = 0;
     int timeRangeEnd = 0;
     for (int i = 0; i < unavailableMinutes.length; i++) {
-      // If the current minute is available but not in a time range, start the time range and set
-      // this minute to the start of that time range.
       if (!unavailableMinutes[i] && !inTimeRange) {
+        // If the current minute is available but not in a time range, start the time range and set
+        // this minute to the start of that time range.
         inTimeRange = true;
         timeRangeStart = i;
-      // If the current minute is available and already in a time range, update the end of this
-      // time range to this minute.
       } else if (!unavailableMinutes[i] && inTimeRange) {
+        // If the current minute is available and already in a time range, update the end of this
+        // time range to this minute.
         timeRangeEnd = i;
-      // If the current minute is unavailable but inside a time range, end the time range and add
-      // it to the list of available time slots if its duration is greater than the required.
       } else if (inTimeRange) {
+        // If the current minute is unavailable but inside a time range, end the time range and add
+        // it to the list of available time slots if its duration is greater than the required.
         inTimeRange = false;
-        if(timeRangeEnd - timeRangeStart + 1 >= duration) {
+        if (timeRangeEnd - timeRangeStart + 1 >= duration) {
           availableTimeSlots.add(TimeRange.fromStartEnd(timeRangeStart, timeRangeEnd, true));
         }
       }
