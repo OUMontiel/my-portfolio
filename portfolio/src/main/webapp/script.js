@@ -78,18 +78,14 @@ function addRandomBibleVerse() {
  * Changes Navbar style depending on scroll position.
  */
 window.addEventListener('scroll', function() {
-  if (document.body.scrollTop > 80 || 
-      document.documentElement.scrollTop > 80) {
-    document.getElementById('navbar').style.padding = '30px 10px';
-    document.getElementById('navbar').style.backgroundColor = 
-        'rgba(0, 0, 0, 0.25)';
-    document.getElementById('navbar-name').style.fontSize = '25px';
+  if (document.body.scrollTop > 30 || 
+      document.documentElement.scrollTop > 30) {
+    document.getElementById('navbar').style.backgroundPosition = 
+        'left bottom';
   }
   else {
-    document.getElementById('navbar').style.padding = '80px 10px';
-    document.getElementById('navbar').style.backgroundColor = 
-        'rgba(0, 0, 0, 1)';
-    document.getElementById('navbar-name').style.fontSize = '35px';
+    document.getElementById('navbar').style.backgroundPosition = 
+        'right bottom';
   }
 })
 

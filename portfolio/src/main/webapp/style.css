@@ -47,13 +47,16 @@
   align-items: center;
 }
 
-.navbar {
-  transition: 0.6s;
+#navbar {
+  transition: 2s;
+  padding: 30px 10px;
+  background: linear-gradient(to right, rgba(231, 63, 0, 1), rgba(0, 0, 0, 1) 50%, rgba(0, 0, 0, 0) 50%);
+  background-size: 200% 100%;
+  background-position: right bottom;
 }
 
-.navbar .sticky-top {
-  height: 50px;
-  background-color: rgba(0, 0, 0, 0.25);
+#navbar-name {
+  font-size: 25px;
 }
 
 @keyframes change {
