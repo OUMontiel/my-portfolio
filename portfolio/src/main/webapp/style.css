@@ -47,6 +47,14 @@
   align-items: center;
 }
 
+.section {
+  background: linear-gradient(135deg, rgb(0, 140, 255), rgb(0, 0, 0));
+  padding: 10%;
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: x-large;
+}
+
 #navbar {
   transition: 2s;
   padding: 30px 10px;
